@@ -1,0 +1,7 @@
+
+
+= Hypothesis =
+
+Most probably, there is a bug in RenderX code, localized in the formatting core. 
+
+

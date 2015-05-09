@@ -1,0 +1,10 @@
+
+<Flavor>
+ <DefiniteFlavor></DefiniteFlavor>
+ <StrongFlavor></StrongFlavor>
+ <MaybeAssistanceRequest>
+  <AssistanceRequest>
+   <AssistanceInCallingViaAPI>
+    <ShortProductName>
+     <InXepWin></InXepWin></ShortProductName></AssistanceInCallingViaAPI>
+   <AssistanceInInstallingForeignSoftware></AssistanceInInstallingForeignSoftware></AssistanceRequest></MaybeAssistanceRequest></Flavor>

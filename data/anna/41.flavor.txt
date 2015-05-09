@@ -1,0 +1,7 @@
+
+
+= Hypothesis =
+
+Most probably, the network access via firewall, is misconfigured. 
+
+

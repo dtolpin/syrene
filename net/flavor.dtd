@@ -1,0 +1,279 @@
+<?xml encoding="UTF-8"?>
+
+<!ELEMENT Flavor ((DefiniteFlavor,StrongFlavor)|MaybeAssistanceRequest)>
+<!ATTLIST Flavor
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT MaybeAssistanceRequest (WeakFlavor|AssistanceRequest)>
+<!ATTLIST MaybeAssistanceRequest
+  xmlns CDATA #FIXED ''>
+
+<!ENTITY % Bug "XepBug?,ApiBug?,ShellBug?,ForeignBug?,EigenMisconf?,
+                RuntimeMisconf?,NetMisconf?,CatalogMisconf?">
+
+<!ELEMENT DefiniteFlavor (%Bug;)>
+<!ATTLIST DefiniteFlavor
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT StrongFlavor (%Bug;)>
+<!ATTLIST StrongFlavor
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT WeakFlavor (%Bug;)>
+<!ATTLIST WeakFlavor
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT XepBug ((MaybeCause|LikelyCause|SureCause),InRenderX)>
+<!ATTLIST XepBug
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InRenderX (InPre?,InFmt?,InSvg?,InGen?,InFont?,InImage?)>
+<!ATTLIST InRenderX
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT ApiBug ((MaybeCause|LikelyCause|SureCause),
+                  (InXepAPI|InXepWinAPI|InEnmasseClient))>
+<!ATTLIST ApiBug
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT ShellBug ((MaybeCause|LikelyCause|SureCause),InAnyShell?,
+                    InXepCmdLine?,InXepWinCmdLine?,InXepAssistant?,
+                    InXepWinAssistant?,InActiXep?,InEnmasse?)>
+<!ATTLIST ShellBug
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT ForeignBug ((MaybeCause|LikelyCause|SureCause),
+                      ProducedInputFormat?,ConsumedOutputFormat?,InEnv?,
+                      InvokeBug?)>
+<!ATTLIST ForeignBug
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT ProducedInputFormat ((ViaSvg|ViaXslFo)?,inputformat?)>
+<!ATTLIST ProducedInputFormat
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT ConsumedOutputFormat (outputformat)?>
+<!ATTLIST ConsumedOutputFormat
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InEnv EMPTY>
+<!ATTLIST InEnv
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InvokeBug (InRenderXSoftware|InXep|InXepWin|InEnmasse)?>
+<!ATTLIST InvokeBug
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT ViaSvg EMPTY>
+<!ATTLIST ViaSvg
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT ViaXslFo EMPTY>
+<!ATTLIST ViaXslFo
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT EigenMisconf ((MaybeCause|LikelyCause|SureCause),
+                        ((InFontConf?,InBackendConf?)|ProductMisconf))>
+<!ATTLIST EigenMisconf
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT ProductMisconf (InRenderXSoftware|InXep|(InEnmasse,InXep))>
+<!ATTLIST ProductMisconf
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT NetMisconf ((MaybeCause|LikelyCause|SureCause),ViaProxy?,
+                      ViaFirewall?)>
+<!ATTLIST NetMisconf
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT CatalogMisconf (MaybeCause|LikelyCause|SureCause)>
+<!ATTLIST CatalogMisconf
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT RuntimeMisconf (MaybeCause|LikelyCause|SureCause)>
+<!ATTLIST RuntimeMisconf
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT AssistanceRequest (AssistanceInDocumentFormatting?,
+                             AssistanceInCallingViaAPI?,
+                             AssistanceInUsingShell?,
+                             AssistanceInInstallingForeignSoftware?,
+                             AssistanceInConfiguringRenderX?,
+                             AssistanceInConfiguringRuntime?,
+                             AssistanceInConfiguringNetwork?,
+                             AssistanceInXMLCatalogs?,JustAssistance?)>
+<!ATTLIST AssistanceRequest
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT AssistanceInDocumentFormatting (ShortProductName)>
+<!ATTLIST AssistanceInDocumentFormatting
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT AssistanceInCallingViaAPI (ShortProductName)>
+<!ATTLIST AssistanceInCallingViaAPI
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT AssistanceInUsingShell (ShellName)>
+<!ATTLIST AssistanceInUsingShell
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT AssistanceInInstallingForeignSoftware EMPTY>
+<!ATTLIST AssistanceInInstallingForeignSoftware
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT AssistanceInConfiguringRenderX (ShortProductName)>
+<!ATTLIST AssistanceInConfiguringRenderX
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT AssistanceInConfiguringRuntime (ShortProductName)>
+<!ATTLIST AssistanceInConfiguringRuntime
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT AssistanceInConfiguringNetwork EMPTY>
+<!ATTLIST AssistanceInConfiguringNetwork
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT AssistanceInXMLCatalogs EMPTY>
+<!ATTLIST AssistanceInXMLCatalogs
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT JustAssistance (ShortProductName)>
+<!ATTLIST JustAssistance
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT MaybeCause EMPTY>
+<!ATTLIST MaybeCause
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT LikelyCause EMPTY>
+<!ATTLIST LikelyCause
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT SureCause EMPTY>
+<!ATTLIST SureCause
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT inputformat EMPTY>
+<!ATTLIST inputformat
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT outputformat EMPTY>
+<!ATTLIST outputformat
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InXep EMPTY>
+<!ATTLIST InXep
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InXepAPI (InXep)>
+<!ATTLIST InXepAPI
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InXepWin EMPTY>
+<!ATTLIST InXepWin
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InXepWinAPI (InXepWin)>
+<!ATTLIST InXepWinAPI
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InEnmasse (InActinia|InToaster|InFairy)?>
+<!ATTLIST InEnmasse
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InEnmasseClient (InEnmasse)>
+<!ATTLIST InEnmasseClient
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InActinia EMPTY>
+<!ATTLIST InActinia
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InToaster EMPTY>
+<!ATTLIST InToaster
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InFairy EMPTY>
+<!ATTLIST InFairy
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InXepCmdLine (InXep)>
+<!ATTLIST InXepCmdLine
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InXepWinCmdLine (InXepWin)>
+<!ATTLIST InXepWinCmdLine
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InXepAssistant (InXep)>
+<!ATTLIST InXepAssistant
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InXepWinAssistant (InXepWin)>
+<!ATTLIST InXepWinAssistant
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InActiXEP (InXepWin)>
+<!ATTLIST InActiXEP
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InPre EMPTY>
+<!ATTLIST InPre
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InFmt EMPTY>
+<!ATTLIST InFmt
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InSvg EMPTY>
+<!ATTLIST InSvg
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InGen (outputformat)>
+<!ATTLIST InGen
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InFont EMPTY>
+<!ATTLIST InFont
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InImage EMPTY>
+<!ATTLIST InImage
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InAnyShell EMPTY>
+<!ATTLIST InAnyShell
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InActiXep EMPTY>
+<!ATTLIST InActiXep
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InRenderXSoftware EMPTY>
+<!ATTLIST InRenderXSoftware
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InFontConf EMPTY>
+<!ATTLIST InFontConf
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT InBackendConf EMPTY>
+<!ATTLIST InBackendConf
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT ViaProxy EMPTY>
+<!ATTLIST ViaProxy
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT ViaFirewall EMPTY>
+<!ATTLIST ViaFirewall
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT ShortProductName (InRenderXSoftware|InXep|InXepWin|InEnmasse)>
+<!ATTLIST ShortProductName
+  xmlns CDATA #FIXED ''>
+
+<!ELEMENT ShellName (InXepAssistant|InXepWinAssistant|InActiXEP
+                     |InEnmasse)>
+<!ATTLIST ShellName
+  xmlns CDATA #FIXED ''>

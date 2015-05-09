@@ -1,0 +1,11 @@
+
+<Flavor>
+ <DefiniteFlavor></DefiniteFlavor>
+ <StrongFlavor></StrongFlavor>
+ <MaybeAssistanceRequest>
+  <WeakFlavor>
+   <XepBug>
+    <MaybeCause></MaybeCause>
+    <InRenderX>
+     <InPre></InPre>
+     <InFmt></InFmt></InRenderX></XepBug></WeakFlavor></MaybeAssistanceRequest></Flavor>

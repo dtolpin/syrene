@@ -1,0 +1,1608 @@
+# $Id: anna.synet,v 1.170 2007/03/17 23:49:17 dvd Exp $
+
+section *  Диспетчер запросов группе
+  ^summary, channel, product, complaint, configuration, artifacts
+
+section summary Краткое описание
+  /subject/ Суть:  _________
+  /author/ Автор:  _________
+
+section channel Канал запроса
+  <1> support@renderx.com
+  <2> xep-support@renderx.com
+  <3> продавец RenderX
+  <4> инженер RenderX
+  <9> другой /other/ ________
+
+section product Товар
+  +product 1-3 -> ^xepversion
+
+  <1> XEP
+   +product 1 -> ^xep
+  <2> XEPwin
+   +product 2 -> ^xepwin
+  <3> EnMasse
+   +product 3 -> ^enmasse
+
+section xepversion Версия XEP
+   <1> 3.*
+   <2> 4.*
+
+section xep
+   способ запуска:
+    <1> с командной строки
+    <2> XEP Assistant
+    <3> из программы
+    +xep 3 -> ^xepapp
+    <4> через CLISER
+
+section xepapp
+   встроен в
+   <1> Java bean
+   <2> сервлет
+   <3> Cocoon
+   <4> oXygenXML Editor
+   <9> другую программу /other/ _______
+
+section xepwin
+    способ запуска:
+    <1> с командной строки
+    <2> XEP Assistant
+    <2.5> ActiXEP
+    <3> встроен в приложение .NET
+
+section enmasse
+   <1> Actinia
+   <2> Toaster
+   <3> Fairy
+# я здесь исхожу из предположения, что жалоба - одна
+# если у пользователя есть несколько жалоб, скорее всего,
+# их можно разделить на отдельные случаи. Если нельзя, то
+# нужно анализовать случай и менять вопросник.
+section complaint Жалоба
+   Форматирование:
+   <1> не принимает входные данные (невалидные, с ошибками в атрибутах и т.д.)
+   <2> не выдает результат (или выдаёт пустой результат)
+      +complaint 2 -> ^failure
+   <3> требует слишком много системных ресурсов (много времени, памяти, места)
+      +complaint 3 -> ^resourcedrain
+   <4> не принимает внешние ресурсы (ошибка на шрифте или картинке)
+   <5> не получает внешние ресурсы по сети (DTD, стили, шрифты, картинки)
+   Результат:
+   <6> "битый" (нельзя открыть в другой программе или напечатать)
+      +complaint 6 -> ^brokenoutput
+   <7> не соответствует ожиданиям пользователя
+      +complaint 7 -> ^disappointment
+   Возникли трудности при
+   начале работы:
+   <8.25> получении дистрибутива
+   <8> установке
+   <8.5> настройке
+     +complaint 8.5 -> ^settings
+   запуске и выполнении программы:
+   <8.75> задании данных и параметров для форматирования
+   <9> встраивании в другую программу через API
+   <10> интерпретации и обработке диагностики
+   форматировании:
+   <11> подготовке входного документа (XSLT, XSL FO, DocBook etc.)
+   +complaint 11 -> ^markup
+   <11.5> задании настроек выходного формата (processing-instruction)
+   <12> обработке результата (XEPOUT, PDF, PostScript etc.)
+   [upgrade] Пользователь переходит на новую версию XEP
+   +complaint.upgrade 2 -> ^upgrade
+   +complaint
+     0-7,8.5-12 -> ^inputformat
+     0,2-7,8.5-12 -> ^outputformat
+     0,2-7,9-12 -> ^extresource
+
+section failure
+  <1> прерывается по нехватке памяти
+  <2> прерывается по ошибке в среде исполнения или библиотеке
+  <3> зацикливается
+  <3.5> останавливается до начала форматирования
+  <4> останавливается в процессе форматирования
+    +failure 4 -> ^markup
+
+section resourcedrain
+    [ram] потребляет много памяти
+    [hdd] требует много места на диске
+    [cpu] форматирует долго
+    [net] медленно выкачивает внешние ресурсы по сети
+
+section brokenoutput
+    <1> не открывается
+    <2> не печатается
+
+section disappointment
+    <1> теряет данные
+    <2> искажает документ (объекты накладываются, меняется порядок и т.д.)
+    <3> неправильно реагирует на дополнительные настройки (keep, break, и т.д.)
+    <4> применяет плохие эвристики (получается некрасиво)
+    <5> не использует внешние ресурсы (не достаёт картинки или шрифты)
+    <6> неправильно использует внешние ресурсы (искаженные картинки или глифы)
+    <7> представлен в выходном формате неоптимально \
+        (например, можно улучшить дистиллером)
+      +disappointment 0-4 -> ^markup
+
+section markup
+    +inputformat *-1,3-* -> ^xslfo
+    +inputformat 2 -> ^svg
+
+section xslfo
+    Упомянутые сущности XSL FO:
+    Элементы:
+    [master] page-*master*
+    [list] list-*
+    [table] table, table-*
+    [float] float
+    [footnote] footnote
+    [graphic] external-graphic, instream-foreign-object
+    [marker] marker, retrieve-marker
+    [index] index-*
+    [changebar] changebar-*
+    Атрибуты:
+    [font] \@font-*
+    [indent] \@start-indent, \@end-indent
+    [widphans] \@widows, \@orphans
+    [overflow] \@overflow
+    [keep] \@keep
+    [break] \@break
+    [display-align] \@display-align
+    [relative-align] \@relative-align
+    [span] \@span
+    Контексты и алгоритмы:
+    [pagebreak] граница страницы
+    [hyphenation] перенос слов
+    [justification] выравнивание длины строки
+    [unicode] текст с нелатинскими символами (типографские пробелы и пунктуация, евро, хинди...)
+    [bidi] направление письма
+
+section svg
+    Упомянутые сущности SVG:
+   [transparency] прозрачность
+   [gradient] градиент
+   [a] ссылки
+   [inheritance] наследование атрибутов
+   [bidi] направление письма
+
+section settings
+    <1> общих параметров
+    <2> шрифтов
+     +settings 2 -> ^font
+    <3> правил переноса
+    <4> опций генераторов (бэкендов)
+
+# SVG выделен в отдельный формат, потому что форматирование SVG - отдельный
+# форматтер внутри основного. В дальнейшем туда надо также добавить в качестве
+# входных другие большие (InDesign) и малые (MathML) формате, и жалобы,
+# связанные с содержанием форматирования этих форматов, обозначать как
+# MathML, а не как XSL FO, например.
+section inputformat Формат входного документа
+    <1> XSL FO
+    <2> SVG (жалоба про содержание SVG)
+    <3> DocBook
+    <4> WordML
+    <5> XML+XSLT
+    <6> XEPOUT
+
+section upgrade
+    <1> c 2.*
+    <2> c 3.
+    <3> c 4.*
+    <4> c XEP.NET 3
+    <5> с FOP
+
+section outputformat Формат результата
+    <1> PostScript
+    <2> PDF
+    <3> AFP
+    <4> XEPOUT
+
+section extresource Ресурс, причиняющий проблему
+    <1> шрифт
+      +extresource 1 -> ^font
+    <2> картинка
+      +extresource 2 -> ^image
+    <2.5> таблица переносов
+    <3> DTD
+    <4> Стиль XSLT
+
+section font
+    <1> Type1
+    <2> TrueType
+    <3> OpenType
+    <4> SVG
+    <9> другой формат /other/ ______
+
+section image
+    <1> GIF
+    <2> TIFF
+    <3> PNG
+    <4> JPEG
+    <5> EPS
+    <6> PDF
+    <7> SVG
+    <9> другой формат /other/ ______
+
+section configuration Конфигурация компьютера пользователя
+   /os/ Операционная система:
+     <1> Windows
+      +configuration.os 1 -> ^windows
+     <2> Mac OS X
+      +configuration.os 2 -> ^macosx
+     <3> Linux
+      +configuration.os 3 -> ^linux
+     <9> другая /osother/ ___________
+
+   /ncpus/ Число процессоров:
+     <1> 1
+     <2> 2
+     <3> 4
+     <4> 8 и больше
+   /wordsize/ Разрядность процессора:
+     <1> 32 бита
+     <2> 64 бита
+
+   Доступ к сети:
+   [proxy] proxy
+   [firewall] firewall
+
+   +configuration.firewall 2 -> ^firewall
+
+   +product
+     0-3 -> ^java
+     0,2 -> ^dotnet
+     0,3 -> ^python
+
+section windows
+    <1> Windows XP
+    <2> Windows 2000
+    <3> Windows Vista
+    <9> другая версия /other/ ________
+
+section linux
+  /distribution/ Дистрибутив:
+    <1> Debian
+    <2> Gentoo
+    <3> SUSE
+    <4> RedHat
+    <9> другой /distother/ ________
+  /kernel/ Версия ядра:
+    <1> 2.4.*
+    <2> 2.6.*
+    <9> другая /kernother/ ________
+
+section macosx
+  /architecture/ Платформа:
+    <1> Intel
+    <2> PowerPC
+
+  /version/ Версия ОС:
+    <2> Jaguar (10.2.*)
+    <3> Panther (10.3.*)
+    <4> Tiger (10.4.*)
+    <5> Leopard (10.5.*)
+
+section firewall
+  Firewall установлен:
+  [local] на сервере, где работает форматтер
+  [gateway] на маршрутизаторе
+
+section java Ява
+  /vendor/ Производитель:
+   <1> Sun
+   <2> IBM
+   <9> другой /vendorother/ ________
+
+  /version/ Версия:
+   <3> 1.3
+   <4> 1.4
+   <5> 1.5
+
+section dotnet .NET Framework
+  /version/ Версия:
+   <1> 1.0
+   <2> 1.1
+   <3> 2.0
+   <4> 3.0
+
+section python Питон
+   /version/ Версия:
+   <2> 2.2
+   <3> 2.3
+   <4> 2.4
+   <5> 2.5
+
+table artifacts Список артефактов
+   [provided] прислал пользователь
+   [requested] запросил диспетчер
+   -+-
+   /source/ исходный документ (и/или стиль)
+   /log/ протокол запуска или лог
+   /result/ выданный результат
+   /mockup/ эскиз или макет результата
+   /config/ конфигурационный файл
+   /image/ картинка
+   /font/ шрифт
+   /hyphen/ таблица переносов
+   /stacktrace/ stack trace
+   /script/ скрипт запуска
+   /codesample/ пример своего кода
+   /patch/ правка к коду RenderX (patch)
+
+### Объяснения
+
+syndrome otherchannel назван канал запроса
+  +channel 9 -> 1
+  +channel.other 1-* -> 1
+
+syndrome anychannel указан канал запроса
+  +channel 1-4 -> 1
+  +otherchannel 2 -> 1
+
+syndrome anycomplaint указана суть жалобы
+  +complaint 1-* -> 1
+  +complaint.upgrade 2 -> 1
+
+explanation *
+  =  @summary.subject
+  +summary.author 1-* -> by @summary.author
+  =\n\n
+
+  +anychannel 1-* -> ^channel
+  +product 1-* -> Используется
+           1 -> ^xep
+           2 -> ^xepwin
+           3 -> ^enmasse
+           1-* -> .
+  +xepversion 1-* -> ^xepversion
+
+  +anycomplaint 1-* -> ^complaint
+  ^configuration
+  ^artifacts
+
+  ^Analysis
+
+## Свидетельство
+
+explanation channel
+  Запрос поступил через
+  +channel 1 -> линию платной поддержки (support\@renderx.com)
+          2 -> публичный список (xep-support\@renderx.com)
+          3 -> продавца RenderX
+          4 -> инженера RenderX
+          9 -> @channel.other
+  .
+
+explanation xep
+  XEP/Java
+    +xep 1 -> с командной строки
+         2 -> через XEP Assistant
+         3 -> ^xepapp
+         4 -> через CLISER
+
+syndrome xepappunknown неизвестно, откуда вызывают XEP
+  +xepapp 0 -> 4
+  +xepapp 9 -> 2
+  +xepapp.other 0 -> 1
+
+explanation xepapp
+  , вызываемый из
+  +xepappunknown 3-* -> программы пользователя
+  +xepappunknown 2 -> программы "@xepapp.other"
+  +xepapp 1 -> Java bean
+          2 -> сервлета
+          3 -> Cocoon
+          4 -> oXygenXML Editor
+
+explanation xepwin
+  XEPwin
+  +xepwin 1 -> с командной строки
+          2 -> через XEP Assistant
+          2.5 -> через ActiXEP
+          3 -> , вызываемый из приложения .NET
+
+explanation xepversion
+  Версия ядра -
+   +xepversion 1 -> 3.*
+               2 -> 4.*
+  .
+
+explanation enmasse
+   EnMasse
+   +enmasse 1 -> Actinia
+            2 -> Toaster
+            3 -> Fairy
+
+syndrome just_images Используются картинки без конкретизации
+  +extresource 2 -> 0.25
+  +image 0 -> 0.25
+  +xslfo.graphic 2 -> 0.5
+
+syndrome explicit_extresource Внешние ресурсы являются причиной проблемы
+  +resourcedrain.net 2 -> 1
+  +complaint 4-5 -> 1
+  +disappointment 5-6 -> 1
+  +just_images 1-* -> 1
+
+explanation complaint Жалоба
+  +complaint.upgrade 2 -> Пользователь переходит на новую версию
+  +upgrade 1-3 -> c XEP/Java версии
+           1 -> 2.*
+           2 -> 3.*
+           3 -> 4.*
+           4 -> c XEP.NET 3.*
+           5 -> с Apache FOP
+  +complaint.upgrade 2 -> .
+
+  ^inoutwith
+
+  +complaint 1 -> Программа не принимает входные данные
+             2 -> ^failure
+             3-5 -> Программа
+             3 -> ^resourcedrain
+             4 -> отказывается загружать
+             5 -> не выкачивает по сети
+             4-5 -> ^extresource
+             6 -> ^brokenoutput
+             7 -> ^disappointment
+             8-12 -> Возникли трудности при
+             8.25 -> получении дистрибутива
+             8 -> установке
+             8.5 -> настройке
+             8.5 -> ^settings
+             8.75 -> задании данных и параметров для форматирования
+             9 -> встраивании в другую программу через API
+             10 -> интерпретации и обработке диагностики
+             11 -> подготовке входного документа
+             11 -> ^markup
+             11.5 -> задании настроек выходного формата
+             12 -> обработке результата
+  +explicit_extresource 0 -> ^when_extresource
+  +complaint 1-* -> .
+
+
+explanation failure
+   +failure 0 -> Программа не выдает результат
+            1-2 -> Исполнение программы прерывается из-за
+            1 -> нехватки памяти
+            2 -> ошибки в среде исполнения или библиотеке
+            3 -> Программа закицливается
+            3.5 -> Исполнение прерывается до начала форматирования
+            4 -> Форматирование останавливается с сообщением об ошибке
+            4 -> ^markup
+
+
+syndrome any_resourcedrain конкретизирован перерасход ресурсов
+  +resourcedrain.ram 2 -> 1
+  +resourcedrain.hdd 2 -> 1
+  +resourcedrain.cpu 2 -> 1
+  +resourcedrain.net 2 -> 1
+
+explanation resourcedrain
+   +any_resourcedrain 0 -> требует слишком много системных ресурсов,
+   +resourcedrain.ram 2 -> занимает слишком большой объём памяти,
+   +resourcedrain.hdd 2 -> потребляет слишком много места на диске,
+   +resourcedrain.cpu 2 -> работает слишком медленно,
+   +resourcedrain.net 2 -> слишком медленно выкачивает по сети
+                      2 -> ^extresource
+
+
+explanation brokenoutput
+  +brokenoutput * -> Результат нельзя
+                0,1,1.5 -> открыть другой программой
+                0 -> или
+                0,2 -> напечатать
+
+syndrome any_xslfo_elem упомянуты элементы XSL FO
+   +xslfo.master 2 -> 1
+   +xslfo.list 2 -> 1
+   +xslfo.table 2 -> 1
+   +xslfo.float 2 -> 1
+   +xslfo.footnote 2 -> 1
+   +xslfo.graphic 2 -> 1
+   +xslfo.marker 2 -> 1
+   +xslfo.index 2 -> 1
+   +xslfo.changebar 2 -> 1
+
+syndrome any_xslfo_attr упомянуты атрибуты
+   +xslfo.font 2 -> 1
+   +xslfo.indent 2 -> 1
+   +xslfo.widphans 2 -> 1
+   +xslfo.overflow 2 -> 1
+   +xslfo.keep 2 -> 1
+   +xslfo.break 2 -> 1
+   +xslfo.display-align 2 -> 1
+   +xslfo.relative-align 2 -> 1
+   +xslfo.span 2 -> 1
+
+syndrome any_xslfo_feature упомянуты контексты форматирования
+   +xslfo.pagebreak 2 -> 1
+   +xslfo.hyphenation 2 -> 1
+   +xslfo.justification 2 -> 1
+   +xslfo.unicode 2 -> 1
+   +xslfo.bidi 2 -> 1
+
+syndrome any_xslfo_elemattr упомянуты элементы или атрибуты
+    +any_xslfo_elem 1-* -> 1
+    +any_xslfo_attr 1-* -> 1
+
+syndrome any_xslfo жалоба конкретизирована сущностями FO
+   +any_xslfo_elem 1-* -> 1
+   +any_xslfo_attr 1-* -> 1
+   +any_xslfo_feature 1-* -> 1
+
+syndrome xslfo_interference настройки при элементах или атрибутах
+   +any_xslfo_elem 1-* -> 1
+   +any_xslfo_attr 1-* -> 2
+
+syndrome any_svg жалоба конкретизирована сущностями SVG
+   +svg.transparency 2 -> 1
+   +svg.gradient 2 -> 1
+   +svg.a 2 -> 1
+   +svg.inheritance 2 -> 1
+   +svg.bidi 2 -> 1
+
+explanation disappointment
+   +disappointment 0-2 -> Результат
+                   0 -> не соответствует ожиданиям пользователя
+                   1 -> не содержит части входных данных
+                   2 -> искажён
+                   3 -> В выходном документе
+                   3 -> ^interference
+   +disappointment 4 -> Результат демонстрирует плохие эвристики
+                   5-6 -> При форматировании
+                   5 -> игнорируются
+                   6 -> неправильно используются
+                   5-6 -> ^extresource
+                   7 -> Выходной формат сгенерирован неоптимально
+   +disappointment 0-4 -> ^markup
+
+explanation interference
+   +xslfo_interference 0 -> не отражены дополнительные настройки
+                       1-3 -> не учтено
+                       1 -> взаимодействие элементов и атрибутов
+                       2 -> влияние
+                       3 -> взаимное влияние
+
+explanation markup
+   +any_xslfo 1-* -> ^xslfo
+   +any_svg 1-* -> ^svg
+
+explanation xslfo
+   +xslfo_interference 1-* -> для
+   +xslfo.master 2 -> матриц страниц (page*master*),
+   +xslfo.list 2 -> списков,
+   +xslfo.table 2 -> таблиц,
+   +xslfo.float 2 -> флоутов,
+   +xslfo.footnote 2 -> сносок,
+   +xslfo.graphic 2 -> картинок,
+   +xslfo.marker 2 -> маркеров,
+   +xslfo.index 2 -> указателей,
+   +xslfo.changebar 2 -> отчерков изменений
+   +any_xslfo_elemattr 2 -> << и
+   +any_xslfo_attr 1-* -> атрибутов
+   +xslfo.font 2 -> font-*,
+   +xslfo.indent 2 -> *-indent,
+   +xslfo.widphans 2 -> orphans, widows,
+   +xslfo.overflow 2 -> overflow,
+   +xslfo.keep 2 -> keep-*,
+   +xslfo.break 2 -> break-*,
+   +xslfo.display-align 2 -> display-align,
+   +xslfo.relative-align 2 -> relative-align,
+   +xslfo.span 2 -> span,
+   +any_xslfo_feature 1-* -> << при обработке
+   +xslfo.pagebreak 2 -> границ страниц,
+   +xslfo.hyphenation 2 -> переносов,
+   +xslfo.justification 2 -> выравнивания строки,
+   +xslfo.unicode 2 -> нелатинских символов,
+   +xslfo.bidi 2 -> разнонаправленного письма,
+
+explanation svg
+  +any_svg 1-* -> для
+  +svg.transparency 2 -> прозрачности,
+  +svg.gradient 2 -> градиента,
+  +svg.a 2 -> ссылок,
+  +svg.inheritance 2 -> наследования атрибутов,
+  +svg.bidi 2 -> направления письма,
+
+explanation settings
+   +settings 1 -> общих параметров
+             2 -> шрифтов
+             2 -> ^font
+             3 -> правил переноса
+             4 -> опций генераторов (бэкендов)
+
+syndrome input_output указаны форматы входа и выхода
+  +inputformat 1-* -> 1
+  +outputformat 1-* -> 1
+
+explanation inoutwith
+  +input_output 1-* -> Пользователь
+                2 -> преобразует
+                2 -> ^inputformat
+                2 -> в
+                2 -> ^outputformat
+                1 -> ^inorout
+                1-* -> .
+
+explanation inorout
+  +inputformat 1-* -> подаёт на вход
+               1-* -> ^inputformat
+  +outputformat 1-* -> генерирует
+                1-* -> ^outputformat
+
+explanation inputformat
+  +inputformat 1 -> XSL FO
+               2 -> документ, включающий SVG,
+               3 -> DocBook
+               4 -> WordML
+               5 -> XML+XSLT
+               6 -> XEPOUT
+
+explanation outputformat
+  +outputformat 1 -> PostScript
+                2 -> PDF
+                3 -> AFP
+                4 -> XEPOUT
+
+explanation extresource
+  +extresource 0 -> внешние ресурсы
+               1 -> шрифты
+               1 -> ^font
+               2 -> картинки
+               2 -> ^image
+               2.5 -> таблицы переносов
+               3 -> DTD
+               4 -> стили XSLT
+
+explanation when_extresource
+  +extresource 1-* -> , если используются
+               1-* -> ^extresource
+
+explanation font
+   +font 1 -> Type1
+         2 -> TrueType
+         3 -> OpenType
+         9 -> @font.other
+
+explanation image
+   +image 1 -> GIF
+          2 -> TIFF
+          3 -> PNG
+          4 -> JPEG
+          5 -> EPS
+          6 -> PDF
+          7 -> SVG
+          9 -> @image.other
+
+syndrome any_os указана операционная система
+   +configuration.os 1-8 -> 1
+   +os_other 2-* -> 1
+
+syndrome os_other названа операционная система
+   +configuration.os 9 -> 2
+   +configuration.osother 1-* -> 1
+
+syndrome any_runtime указаны детали для среды исполнения
+    +any_java 1-* -> 1
+    +any_dotnet 1-* -> 1
+    +any_python 1-* -> 1
+
+syndrome any_java указаны детали для Явы
+    +java.version 1-* -> 1
+    +java.vendor 1-* -> 1
+
+syndrome any_python указаны детали для Питона
+    +python.version 1-* -> 1
+
+syndrome any_dotnet указаны детали для .NET Framework
+    +dotnet.version 1-* -> 1
+
+explanation configuration Конфигурация
+   +configuration.os 1-* -> У пользователя установлена операционная система
+                     1 -> ^windows
+                     2 -> ^macosx
+                     3 -> ^linux
+    +os_other 3 -> @configuration.osother
+              2 ->  неизвестного типа
+   +configuration.os 1-* -> .
+
+   +configuration.ncpus 1-* -> Компьютер -
+                        1 -> однопроцессорный
+                        2-* -> многопроцессорный, с
+                        2 -> двумя процессорами
+                        3 -> четырьмя процессорами
+                        4 -> восемью или более процессорами
+                        1-* -> .
+    +configuration.wordsize 1-* -> Разрядность процессора -
+                            1 -> 32 бита
+                            2 -> 64 бит
+                            1-* -> .
+
+    \n\n
+    +configuration.proxy 1-* -> Доступ к сетевым ресурсам осуществляется
+                         1 -> напрямую (не через proxy)
+                         2 -> через proxy
+                         1-* -> .
+    +configuration.firewall 1 -> Firewall отсутствует
+                            2 -> ^firewall
+                            1-* -> .
+    \n\n
+    +any_runtime 1 -> Используется
+                 2-* -> Используются
+    +any_java 1-* -> ^java
+              1-* -> ,
+
+    +any_dotnet 1-* -> ^dotnet
+                1-* -> ,
+    +any_python 1-* -> ^python
+                1-* -> ,
+    +any_runtime 1-* -> .
+
+syndrome other_windows названа версия Windows
+  +windows 9 -> 2
+  +windows.other 1-* -> 1
+
+explanation windows
+  +windows 0 -> Windows
+           1 -> Windows XP
+           2 -> Windows 2000
+           3 -> Windows Vista
+  +other_windows 3 -> @windows.other
+                 2 -> Windows
+
+explanation macosx
+  Mac OS X
+  +macosx.version 2 -> Jaguar
+                  3 -> Panther
+                  4 -> Tiger
+                  5 -> Leopard
+
+syndrome other_linux_dist назван дистрибутив Linux
+  +linux.distribution 9 -> 1
+  +linux.distother 1-* -> 1
+
+syndrome linux_kernel названа версия ядра Linux
+  +linux.kernel 1-2 -> 4
+  +linux.kernel 9 -> 2
+  +linux.kernother 1-* -> 1
+
+explanation linux
+  +linux.distribution 1 -> Debian
+                      2 -> Gentoo
+                      3 -> SUSE
+                      4 -> RedHat
+  +other_linux_dist 2 -> @linux.distother
+  Linux
+  +linux_kernel 3-* -> с ядром
+  +linux.kernel 1 -> 2.4
+                2 -> 2.6
+                9 -> @linux.kernother
+
+syndrome where_firewall конкретизировано место установки firewall
+  +firewall.local 2 -> 1
+  +firewall.gateway 2 -> 1
+
+explanation firewall
+  +where_firewall 0 -> Установлен firewall
+                  1-* -> Firewall установлен
+  +firewall.local 2 -> на форматирующем компьютере
+  +where_firewall 2 -> и
+  +firewall.gateway 2 -> на маршрутизаторе сети
+
+explanation java
+   +java.vendor 1 -> Sun
+                2 -> IBM
+                9 -> @java.vendorother
+   Java
+   +java.version 3 -> 1.3
+                 4 -> 1.4
+                 5 -> 1.5
+
+explanation dotnet
+   \ .NET Framework
+   +dotnet.version 1 -> 1.0
+                   2 -> 1.1
+                   3 -> 2.0
+                   4 -> 3.0
+
+explanation python
+   Python
+   +python.version 2 -> 2.2
+                   3 -> 2.3
+                   4 -> 2.4
+                   5 -> 2.5
+
+syndrome any_arti_provided указаны предоставленные артефакты
+  +artifacts.source.provided 2 -> 1
+  +artifacts.log.provided 2 -> 1
+  +artifacts.result.provided 2 -> 1
+  +artifacts.mockup.provided 2 -> 1
+  +artifacts.config.provided 2 -> 1
+  +artifacts.image.provided 2 -> 1
+  +artifacts.font.provided 2 -> 1
+  +artifacts.hyphen.provided 2 -> 1
+  +artifacts.stacktrace.provided 2 -> 1
+  +artifacts.script.provided 2 -> 1
+  +artifacts.codesample.provided 2 -> 1
+  +artifacts.patch.provided 2 -> 1
+
+syndrome any_arti_requested указаны запрошенные артефакты
+  +artifacts.source.requested 2 -> 1
+  +artifacts.log.requested 2 -> 1
+  +artifacts.result.requested 2 -> 1
+  +artifacts.mockup.requested 2 -> 1
+  +artifacts.config.requested 2 -> 1
+  +artifacts.image.requested 2 -> 1
+  +artifacts.font.requested 2 -> 1
+  +artifacts.hyphen.requested 2 -> 1
+  +artifacts.stacktrace.requested 2 -> 1
+  +artifacts.script.requested 2 -> 1
+  +artifacts.codesample.requested 2 -> 1
+  +artifacts.patch.requested 2 -> 1
+
+syndrome arti_proreq указаны предоставленные или запрошенные артефакты
+  +any_arti_provided 1-* -> 1
+  +any_arti_requested 1-* -> 2
+
+explanation artifacts Артефакты
+  +any_arti_provided 1-* -> Пользователь прислал
+  +artifacts.source.provided 2 -> входной документ или стиль,
+  +artifacts.log.provided 2 -> протокол запуска или лог,
+  +artifacts.result.provided 2 -> выданный результат,
+  +artifacts.mockup.provided 2 -> эскиз или макет результата,
+  +artifacts.config.provided 2 -> конфигурационный файл,
+  +artifacts.image.provided 2 -> картинку,
+  +artifacts.font.provided 2 -> шрифт
+  +artifacts.hyphen.provided 2 -> таблицу переносов,
+  +artifacts.stacktrace.provided 2 -> stack trace,
+  +artifacts.script.provided 2 -> скрипт запуска,
+  +artifacts.codesample.provided 2 -> пример своего кода,
+  +artifacts.patch.provided 2 -> правку к коду RenderX (патч),
+  +any_arti_provided 1-* -> .
+  +arti_proreq  3 -> Дополнительно, диспетчер
+  +arti_proreq 2 -> Диспетчер
+  +any_arti_requested 1-* -> попросил прислать
+  +artifacts.source.requested 2 -> входной документ или стиль,
+  +artifacts.log.requested 2 -> протокол запуска или лог,
+  +artifacts.result.requested 2 -> выданный результат,
+  +artifacts.mockup.requested 2 -> эскиз или макет результата,
+  +artifacts.config.requested 2 -> конфигурационный файл,
+  +artifacts.image.requested 2 -> картинку,
+  +artifacts.font.requested 2 -> шрифт
+  +artifacts.hyphen.requested 2 -> таблицу переносов,
+  +artifacts.stacktrace.requested 2 -> stack trace,
+  +artifacts.script.requested 2 -> скрипт запуска,
+  +artifacts.codesample.requested 2 -> пример своего кода,
+  +artifacts.patch.requested 2 -> правку к коду Рендерикс (патч),
+  +any_arti_requested 1-* -> .
+
+
+# В результате жалобы клиент может получить от Рендерикса следующее:
+
+# Анализ причины проблемы.
+#  1. В коде RenderX есть ошибка.
+#  2. Пользователь неправильно пользуется программой RenderX.
+#  3. В другой программе (не написанной пользователем), сопряженной с
+#     программой RenderX, есть ошибка.
+#  4. При помощи выбранных средств проблему решить нельзя.
+
+# Совет пользователю.
+#   1. Изменения, которые позволят пользователю получить результат:
+#       1) в конфигурации окружения;
+#       2) в настройке программы;
+#       3) при запуске или вызове программы;
+#       3) во входных данных;
+#       4) при обработке результатов.
+#   2. Адресат и суть жалобы, с которой должен обратиться пользователь,
+#      чтобы ему решили его проблему в другом месте.
+
+# Действия внутри группы разработчиков RenderX.
+#   1. Запрос на расширение документации.
+#     1. Дополнение документации, сопровождающей дистрибутив программы.
+#     2. Публикация примеров, пояснений и идеи в публичном ресурсе (список, сайт).
+#   2. Запрос на исправление ошибки.
+#   3. Запрос на реализацию новой функциональности.
+
+# В приписке к жалобе должно быть написано:
+#  1) на какие случаи похоже (Анализ)
+#  2a) в каких частях программы искать ошибку
+#  2b) какие составляющие конфигурации проверять
+#  3) какого рода материалы могут понадобиться
+#  4) знания в каких областях нужны для ответа клиенту
+
+explanation Analysis
+  ^Flavour
+  ^Skills
+
+# Синдромы, измеряющие общий характер запроса, независимо от технических деталей
+
+syndrome IndianProgrammer индийский программист
+  +channel 4 -> 1
+  +any_arti_provided 3-* -> 1
+  +xepapp 1-2 -> 1
+
+syndrome BankCustomer отдел автоматизации банка
+  +channel 3 -> 2
+  +product 2 -> 1
+  +configuration.ncpus 2-* -> 1
+  +configuration.firewall 1 -> 1
+  +configuration.proxy 1 -> 1
+  +upgrade 1 -> 1
+           4 -> 2
+
+syndrome TechnologyExpert специалист в области XML и управления контентом
+  +channel 2 -> 1
+  +arti_proreq 1 -> 1
+  +any_xslfo 3-* -> 1
+
+# Характер запроса
+# Ошибка в программе RenderX
+
+syndrome XepBug ошибка в коде форматтера
+  -10
+  +AnyXepBug 1-* -> 10 # ошибку можно квалифицировать
+
+  # плохо себя ведёт
+  +failure 3 -> 2
+           4 -> 2
+
+  # жалоба похожа на жалобу об ошибке
+  +complaint 3 -> 1
+             4 -> 1
+             6 -> 2
+             7 -> 1
+             11 -> 1
+             11.5 -> 1
+
+  # Сочетанные случаи: труднее тестировать, чаще ошибки
+  +any_xslfo 2 -> 1
+             3-* -> 2
+  +any_svg   1 -> 1
+             2-* -> 2
+
+  +RejectsBareInput 2-* -> 1
+
+  # Сложный для воспроизведения случай
+  +arti_proreq 3 -> 2
+  +any_os      1-* -> 1
+
+  # Человеческий фактор
+  +IndianProgrammer 2   -> -1
+                    3-* -> -2
+  +BankCustomer     3-* -> -1
+  +TechnologyExpert 2-* -> +1
+
+syndrome RejectsBareInput не принимает готовый входной формат
+  +complaint 1 -> 1
+  +inputformat 1-2 -> 1
+
+syndrome AnyXepBug внутреннюю ошибку можно классифицировать
+  +PreBug 1-* -> 1
+  +FmtBug 1-* -> 1
+  +SvgBug 1-* -> 1
+  +GenBug 1-* -> 1
+  +ImageBug 1-* -> 1
+  +FontBug 1-* -> 1
+
+# При остановке по внутренней ошибке нужно смотреть на всю
+# цепочку, поэтому +failure 4 -> 1  включено везде
+
+syndrome PreBug ошибка в препроцессоре или валидаторе
+  +inputformat 2,6 -> -1
+  +failure 4 -> 1
+  +complaint 1 -> 1
+
+  +disappointment 1-3 -> 0.5
+  +PreMarkup 1-* -> 0.5
+
+syndrome PreMarkup разметка, сложно обрабатываемая в препроцессоре
+  +xslfo.table 2 -> 1
+  +xslfo.marker 2 -> 1
+  +xslfo.bidi 2 -> 1
+
+syndrome MarkupBug
+  +failure 4 -> 1
+  +disappointment 1-4 -> 1
+  +complaint 11 -> 1
+             12 -> 1
+
+syndrome FmtBug ошибка в ядре
+  +inputformat 2,6  -> -1
+  +MarkupBug 1-* -> 1
+
+syndrome SvgBug ошибка в форматтере SVG
+  +inputformat 2 -> 0.5
+  +MarkupBug 1-* -> 0.5
+  +image 7 -> 1
+
+syndrome GenBug ошибка в генераторе выходного формата
+  +outputformat 0 -> -1
+  +failure 4 -> 1
+  +complaint 4 -> 1
+             6 -> 2
+             11.5 -> 2
+             12 -> 2
+  +disappointment 6 -> 1
+                  7 -> 2
+
+syndrome ImageBug ошибка в библиотеке графики
+  +extresource 2 -> 1
+  +artifacts.image.provided 2 -> 1
+  +artifacts.image.requested 2 -> 1
+  +complaint 5 -> -1
+
+syndrome FontBug ошибка в библиотеке шрифтов
+  +extresource 1 -> 1
+  +artifacts.font.provided 2 -> 1
+  +artifacts.font.requested 2 -> 1
+  +complaint 5 -> -1
+
+syndrome ApiBug ошибка в API
+  -3
+  +xep 3 -> 3
+  +xepwin 3 -> 3
+  +enmasse 2-3 -> 3
+
+  +complaint 9 -> 1
+             10 -> 1
+  +artifacts.codesample.provided 2 -> 1
+
+  +IndianProgrammer 2-* -> -1
+                    3 -> -2
+
+syndrome ShellBug ошибка в стандартном приложении RenderX
+  -10
+  +AnyShellBug 1-* -> 10
+
+  # Жалоба похожа на ошибку в программе близко к ядру
+  +failure 3.5 -> 1
+  +ShellSettings 1-* -> 1
+  +complaint 8.75 -> 1
+             10 -> 1
+
+  # Пользователь сам же что-то и исправил
+  +artifacts.patch.provided 2 -> 1
+
+  +TechnologyExpert 2-* -> 1
+
+syndrome ShellSettings
+  +complaint 8.5 -> 0.5
+  +settings 0 -> 0.5
+            1 -> 0.5
+
+syndrome AnyShellBug
+  +XepCmdLineBug 1-* -> 1
+  +XepWinCmdLineBug 1-* -> 1
+  +XepAssistantBug 1-* -> 1
+  +XepWinAssistantBug 1-* -> 1
+  +ActiXepBug 1-* -> 1
+  +EnmasseBug 1-* -> 1
+
+syndrome XepCmdLineBug XEP запускают с командной строки
+  +xep 1 -> 1
+
+syndrome XepWinCmdLineBug XEPwin запускают с командной строки
+  +xepwin 1 -> 1
+
+syndrome XepAssistantBug XEP запускают через XEP Assistant
+  +xep 2 -> 1
+
+syndrome XepWinAssistantBug XEPwin запускают через XEPwin Assistant
+  +xepwin 2 -> 1
+
+syndrome ActiXepBug пользуются ActiXep
+  +xepwin 2.5 -> 1
+
+syndrome EnmasseBug Пользуются EnMasse
+  +product 3 -> 1
+
+
+# Ошибка в программе, работающей вместе с программой RenderX
+syndrome ForeignBug ошибка в программе рядом с RenderX
+  -10
+  +AnyForeignBug 1-* -> +10
+
+  # вызывают из CMS, где все закручено и концов не видно
+  +xep 3 -> 1
+  +xepwin 3 -> 1
+  +enmasse 2-3 -> 1
+
+  # непрямой вход
+  +inputformat 3 -> 1 
+               4 -> 2 # WordML is unreliable
+               5 -> 1
+
+  # жалоба, похожая на жалобу на окружение
+  +complaint 1,6 -> 1
+  +failure 2 -> 2
+           3.5 -> 1
+
+  +OddRuntime 1-* -> 1
+
+  +BankCustomer     3-* -> +1  # часто не знают, куда посылать
+  +TechnologyExpert 2-* -> -2  # обычно знает, куда посылать
+
+syndrome OddRuntime необычная среда исполнения
+  +configuration.os 9 -> 1
+  +java.vendor 2,9 -> 1
+
+syndrome AnyForeignBug ошибку в программах рядом с RenderX \
+                       можно классифицировать
+  +ProducerBug 1-* -> 1
+  +ConsumerBug 1-* -> 1
+  +EnvBug 1-* -> 1
+  +InvokeBug 1-* -> 1
+
+syndrome ProducerBug ошибка в программе до Renderx
+  +complaint 1,7,11 -> 1
+  +failure 3.5 -> 1
+
+syndrome ConsumerBug ошибка в программе после Renderx
+  +complaint 6,12 -> 1
+
+syndrome EnvBug ошибка в среде исполнения
+  +failure 2,4 -> 1
+
+syndrome InvokeBug ошибка при вызове
+  -1
+  +xep 3 -> 1
+  +xepwin 3 -> 1
+  +enmasse 2-3 -> 1
+  +failure 3.5 -> 1
+  +complaint 9 -> 2
+
+# Ошибки в конфигурации
+syndrome EigenMisconf неправильные настройки программы RenderX
+  +resourcedrain.hdd 2 -> 1
+  +HeuriConf 1-* -> 1
+  +disappointment 7 -> 1
+  +complaint 10 -> 1
+  +complaint.upgrade 2 -> 1
+
+  +EigenMisconfArtifacts 1-3 -> 1
+                         4 -> 2
+
+syndrome HeuriConf конфигурируемые эвристики
+  -10
+  +disappointment 5 -> 10
+  +xslfo.hyphenation 2 -> 1
+  +xslfo.justification 2 -> 1
+
+syndrome EigenMisconfArtifacts артефакты при неправильной конфигурации
+  +artifacts.config.requested 2 -> 2
+  +artifacts.config.provided 2 -> 1
+  +artifacts.log.provided 2 -> 1
+  +artifacts.log.requested 2 -> 1
+
+syndrome RuntimeMisconf неправильные настройки Runtime
+   +BoundedHeap 2 -> 1
+                3-* -> 2
+   +Contentions 1-* -> 1
+
+   +BankCustomer 3-* -> 1
+
+syndrome BoundedHeap ограниченный размер памяти
+   +resourcedrain.ram 2 -> 2
+   +failure 1 -> 2
+   +xslfo.table 2 -> -1 # таблицы сами по себе занимают много памяти
+   +product 2 -> 1 # в xepwin память кучу Явы трудно конфигурировать
+
+syndrome Contentions контенции
+   +configuration.ncpus 2-* -> 0.5
+   +resourcedrain.cpu 2 -> 0.5
+
+syndrome NetMisconf неправильные настройки сети
+   +resourcedrain.net 2 -> 1
+   +complaint 5 -> 1
+
+   +NetAccess 1-* -> 1
+   +NoCliser 1-2 -> 1
+             3 -> 2
+
+   +TechnologyExpert 2-* -> -1
+ 
+syndrome NetAccess управляемый доступ к сети
+   +configuration.firewall 2 -> 1
+   +firewall.gateway 2 -> 1
+   +configuration.proxy 2 -> 1
+
+syndrome NoCliser CLISER не устанавливает соединение
+   -3
+   +product 2,3 -> 3
+   +failure 3.5 -> 1
+   +configuration.firewall 2 -> 1
+   +firewall.local 2 -> 1
+
+syndrome CatalogMisconf
+  -10
+  +CatalogsInvolved 1-* -> 10
+                     2-* -> 1
+  +resourcedrain.cpu 2 -> 1
+  +resourcedrain.net 2 -> 2
+
+syndrome CatalogsInvolved преобразование подразумевает использование каталогов
+  +extresource 3,4 -> 1
+  +inputformat 3 -> 1
+  +SvgInput 1-* -> 1
+
+syndrome SvgInput данные в формате SVG
+  +image 7 -> 1
+  +inputformat 2 -> 1
+
+syndrome DefiniteFlavour хорошо выраженная симптоматика
+  +XepBug 3-* -> 1
+  +ApiBug 3-* -> 1
+  +ShellBug 3-* -> 1
+  +ForeignBug 3-* -> 1
+  +EigenMisconf 3-* -> 1
+  +RuntimeMisconf 3-* -> 1
+  +NetMisconf 3-* -> 1
+  +CatalogMisconf 3-* -> 1
+
+syndrome StrongOrDefiniteFlavour понятно, к чему относится
+  +XepBug 2-* -> 1
+  +ApiBug 2-* -> 1
+  +ShellBug 2-* -> 1
+  +ForeignBug 2-* -> 1
+  +EigenMisconf 2-* -> 1
+  +RuntimeMisconf 2-* -> 1
+  +NetMisconf 2-* -> 1
+  +CatalogMisconf 2-* -> 1
+
+syndrome AnyFlavour хоть какой-то намёк
+  +XepBug 1-* -> 1
+  +ApiBug 1-* -> 1
+  +ShellBug 1-* -> 1
+  +ForeignBug 1-* -> 1
+  +EigenMisconf 1-* -> 1
+  +RuntimeMisconf 1-* -> 1
+  +NetMisconf 1-* -> 1
+  +CatalogMisconf 1-* -> 1
+
+syndrome MaybeAssistanceRequest просто просьба о помощи
+  +AnyFlavour 0 -> 1
+  +complaint 8 -> 1
+             8-12 -> 1
+  +ClearArtifacts 1-* -> 1
+  +BankCustomer 2-* -> 1
+
+syndrome AssistanceRequest
+  +MaybeAssistanceRequest 2-* -> 2
+                          1 -> 1
+  +AnyFlavour 0 -> 1
+
+syndrome ClearArtifacts присланы простые артефакты
+  +any_arti_provided *-2 -> 0.5
+  +any_arti_requested 0 -> 0.5
+
+explanation Flavour Характер жалобы
+  ^DefiniteFlavour
+  +DefiniteFlavour 0,2-* -> ^StrongFlavour
+  +StrongOrDefiniteFlavour 0 -> ^MaybeAssistanceRequest
+
+explanation MaybeAssistanceRequest
+  +AssistanceRequest 2-* -> ^AssistanceRequest
+                     *-1 -> ^WeakFlavour
+
+explanation DefiniteFlavour
+  +XepBug 3-* -> ^XepBug
+  +ApiBug 3-* -> ^ApiBug
+  +ShellBug 3-* -> ^ShellBug
+  +ForeignBug 3-* -> ^ForeignBug
+  +EigenMisconf 3-* -> ^EigenMisconf
+  +RuntimeMisconf 3-* -> ^RuntimeMisconf
+  +NetMisconf 3-* -> ^NetMisconf
+  +CatalogMisconf 3-* -> ^CatalogMisconf
+
+explanation StrongFlavour
+  +XepBug 2 -> ^XepBug
+  +ApiBug 2 -> ^ApiBug
+  +ShellBug 2 -> ^ShellBug
+  +ForeignBug 2 -> ^ForeignBug
+  +EigenMisconf 2 -> ^EigenMisconf
+  +RuntimeMisconf 2 -> ^RuntimeMisconf
+  +NetMisconf 2 -> ^NetMisconf
+  +CatalogMisconf 2 -> ^CatalogMisconf
+
+explanation WeakFlavour
+  +XepBug 1 -> ^XepBug
+  +ApiBug 1 -> ^ApiBug
+  +ShellBug 1 -> ^ShellBug
+  +ForeignBug 1 -> ^ForeignBug
+  +EigenMisconf 1 -> ^EigenMisconf
+  +RuntimeMisconf 1 -> ^RuntimeMisconf
+  +NetMisconf 1 -> ^NetMisconf
+  +CatalogMisconf 1 -> ^CatalogMisconf
+
+explanation XepBug
+  +XepBug 1 -> Возможна ошибка
+          2 -> Похоже на ошибку
+          3-* -> Скорее всего, есть ошибка
+  в коде RenderX, которую придётся искать в
+  +PreBug 1-* -> препроцессоре,
+  +FmtBug 1-* -> ядре,
+  +SvgBug 1-* -> форматтере SVG,
+  +GenBug 1-* -> бэкенде
+          1-* -> ^outputformat
+          1-* -> ,
+  +FontBug 1-* -> библиотеке шрифтов,
+  +ImageBug 1-* -> библиотеке графики,
+  .
+
+explanation ApiBug
+  +ApiBug 1 -> Возможна ошибка
+          2 -> Похоже на ошибку
+          3-* -> Скорее всего, есть ошибка
+  в
+  +product 1 -> API XEP/Java
+           2 -> API XEPwin
+           3 -> клиенте Enmasse
+  +enmasse 2 -> Toaster
+           3 -> Fairy
+  .
+
+explanation ShellBug
+  +ShellBug 1 -> Возможна ошибка
+            2 -> Похоже на ошибку
+            3-* -> Скорее всего, есть ошибка
+  в
+  +AnyShellBug 2-* ->  одной из стандартных программ RenderX:
+  +XepCmdLineBug 1-* -> драйвере командной строки для XEP/Java
+  +XepWinCmdLineBug 1-* -> драйвере командной строки для XEPwin
+  +XepAssistantBug 1-* -> XEP Assistant (Java)
+  +XepWinAssistantBug 1-* -> XEPwin Assistant
+  +ActiXepBug 1-* -> ActiXEP
+  +EnmasseBug 1-* -> Enmasse
+  +enmasse 1 -> Actinia
+           2 -> Toaster
+           3 -> Fairy
+  .
+
+explanation ForeignBug
+  +ForeignBug 1 -> Возможно,
+              2 -> Похоже, что
+              3-* -> Скорее всего,
+  жалоба связана с ошибкой
+  +ProducerBug 1-* -> ^ProducedInputFormat
+  +ConsumerBug 1-* -> ^ConsumedOutputFormat
+  +EnvBug 1-* -> в операционном окружении (runtime или библиотеках),
+  +InvokeBug 1-* -> ^InvokeBug
+  .
+
+explanation InvokeBug
+  при
+  +product 0 -> вызове программы RenderX
+           1 -> вызове XEP
+           2 -> вызове XEPwin
+           3 -> обращении к Enmasse
+  из другой программы,
+
+explanation ProducedInputFormat
+  при генерации
+  +inputformat *-1,3-* -> XSL FO
+               2 -> SVG
+  +inputformat 3-* -> из
+               3-* -> ^inputformat
+  ,
+
+explanation ConsumedOutputFormat
+  при обработке
+  +outputformat 0 -> результата форматирования
+                1-* -> ^outputformat
+  ,
+
+syndrome FontConf конфигурации шрифтов
+  +extresource 1 -> 1
+  +artifacts.font.provided 1 -> 1
+
+syndrome BackendConf опции бэкендов
+  +disappointment 7 -> 1
+
+syndrome SpecificEigenConf гипотезе о разделе собственной конфигурации
+  +FontConf 1-* -> 1
+  +BackendConf 1-* -> 1
+
+explanation EigenMisconf
+  +EigenMisconf 1 -> Возможна ошибка
+                2 -> Похоже на ошибку
+                3 -> Скорее всего, есть ошибка
+  в конфигурации
+  +FontConf 1-* -> шрифтов,
+  +BackendConf 1-* -> опций бэкенда,
+  +SpecificEigenConf 0 -> ^ProductMisconf
+  .
+
+explanation ProductMisconf
+  +product 0 -> программы
+           1-2 -> XEP
+           3 -> Enmasse или XEP
+
+explanation NetMisconf
+  +NetMisconf 1 -> Возможно, что
+              2 -> Похоже, что
+              3 -> Скорее всего,
+  неправильно настроен доступ к сети
+  +NetAccess 1-* -> через
+  +configuration.proxy 2 -> прокси,
+  +configuration.firewall 2 -> firewall,
+  .
+
+explanation CatalogMisconf
+  +CatalogMisconf 1 -> Возможно, 
+                  2 -> Похоже, что
+                  3 -> Скорее всего,
+  не настроены каталоги ресурсов XML.
+
+explanation RuntimeMisconf
+   +RuntimeMisconf 1 -> Возможно, что
+                   2 -> Похоже, что
+                   3 -> Скорее всего,
+   неправильно настроена среда исполнения.
+
+explanation AssistanceRequest
+  Пользователь обращается за помощью в
+  +XepBug 1 -> форматировании документов при помощи
+          1 -> ^ShortProductName
+          1 -> ,
+  +ApiBug 1 -> вызове форматтера через API
+          1 -> ^ShortProductName
+          1 -> ,
+  +ShellBug 1 -> пользовании 
+            1 -> ^ShortProductName
+            1 -> ^ShellName
+            1 -> ,
+  +ForeignBug 1 -> установке и настройке сопутствующего программного обеспечения,
+  +EigenMisconf 1 -> конфигурировании
+                1 -> ^ShortProductName
+                1 -> ,
+  +RuntimeMisconf 1 -> конфигурировании и запуске cреды исполнения
+                  1 -> ^ShortProductName
+                  1 -> ,
+  +NetMisconf 1 -> конфигурировании доступа к сети,
+  +CatalogMisconf 1 -> конфигурировании каталогов ресурсов XML,
+  +AnyFlavour 0 -> использовании
+              0 -> ^ShortProductName
+  .
+
+explanation Skills Требуемая квалификация
+  Для оказания помощи понадобится знание:
+  +XepBug 1-* -> \n—
+          1-* -> ^XepSkills
+  +ApiBug 1-* -> \n—
+          1-* -> ^ApiSkills
+  +ShellBug 1-* -> \n—
+            1-* -> ^ShellSkills
+  +ForeignBug 1-* -> \n—
+              1-* -> ^ForeignSkills
+  +EigenMisconf 1-* -> \n—
+                1-* -> ^EigenConfSkills
+  +RuntimeMisconf 1-* -> \n—
+                  1-* -> ^RuntimeConfSkills
+  +NetMisconf 1-* -> \n—
+              1-* -> ^NetConfSkills
+  +CatalogMisconf  1-* -> \n—
+                   1-* -> ^CatalogSkills
+  +AnyFlavour 0 -> \n—
+              0 -> ^AnySkills
+  .
+
+explanation XepSkills
+  +PreBug 1-* -> спецификации XSL FO,
+  +FmtBug 1-* -> алгоритмов форматирования XSL FO
+          1-* -> ^xslfo
+          1-* -> ,
+  +SvgBug 1-* -> SVG и особенностей реализации
+          1-* -> ^svg
+          1-* -> ,
+  +GenBug 1-* -> особенностей выходного формата
+          1-* -> ^outputformat
+          1-* -> ,
+  +FontBug 1-* -> особенностей использования шрифтов
+           1-* -> ^font
+           1-* -> ,
+  +ImageBug 1-* -> ограничений в поддержке картинок
+            1-* -> ^image
+            1-* -> ,
+
+explanation ApiSkills
+  +product 1 -> Java и API XEP/java
+           2 -> .NET Framework и API XEPwin
+           3 -> Enmasse и
+           3 -> ^ApiSkillsEnmasse
+
+explanation ApiSkillsEnmasse
+   enmasse 0-1 -> способов подключения к нему
+           2 -> протокола Toaster
+           3 -> библиотек поддержки SOAP
+
+explanation ShellSkills
+  +AnyShellBug 1-* -> опций и особенностей
+  +XepCmdLineBug 1-* -> XEP/Java,
+  +XepWinCmdLineBug 1-* -> XEPwin,
+  +XepAssistantBug 1-* -> XEP Assistant (Java),
+  +XepWinAssistantBug 1-* -> XEPwin Assistant,
+  +ActiXepBug 1-* -> ActiXEP,
+  +EnmasseBug 1-* -> Enmasse
+  +enmasse 0 -> ,
+           1 -> Actinia,
+           2 -> Toaster,
+           3 -> Fairy,
+
+explanation ForeignSkills
+  +ProducerBug 1-* -> ^ProducerSkills
+  +ConsumerBug 1-* -> ^ConsumerSkills
+  +EnvBug 1-* -> ^RuntimeConfSkills
+          1-* -> ,
+  +InvokeBug 1-* -> особенностей вызова
+             1-* -> ^ShortProductName
+             1-* -> из другой программы,
+
+explanation ProducerSkills
+  +inputformat 0-2 -> програм и технологий, используемых вместе с 
+               0-2 -> ^ShortProductName
+               1-2 -> для генерации
+               1 -> XSL FO
+               2 -> SVG
+               0-2 -> ,
+               3 -> стилей DocBook,
+               4 -> стилей WordML2FO,
+               5 -> языка и процессоров XSLT,
+
+explanation ConsumerSkills
+  +outputformat 0 -> програм и технологий, используемых вместе с
+                0 -> ^ShortProductName
+                1-3 -> различий в версиях и реализациях
+                1 -> PostScript
+                2 -> PDF
+                3 -> AFP
+                4 -> формата XEPOUT
+  ,
+
+explanation OutputSkills
+  +outputformat 
+
+explanation EigenConfSkills
+  особенностей настройки
+  ^settings
+  в
+  ^ShortProductName
+  .
+
+explanation RuntimeConfSkills
+  опций и особенностей реализации
+  +product 1-3 -> ^java
+           1-3 ->,
+  +product 2 -> ^dotnet
+           2 -> ,
+  +product 3 -> ^python
+           3 -> ,
+  ,
+
+explanation NetConfSkills
+  администрирования локальных сетей,
+  +configuration.proxy 2 -> использования прокси,
+  +configuration.firewall 2 -> установки и настройки firewall,
+
+explanation CatalogSkills
+  каталогов ресурсов XML,
+
+explanation AnySkills
+  ^ShortProductName
+  и смежных технологий,
+
+explanation ShortProductName
+  +product 0 -> ПО RenderX
+           1 -> XEP/Java
+           2 -> XEPwin
+           3 -> Enmasse
+
+explanation ShellName
+  +xep 2 -> Assistant
+  +xepwin 2 -> Assistant
+          2.5 -> ActiXEP
+  +enmasse 1 -> Actinia
+           2 -> Toaster
+           3 -> Fairy
+

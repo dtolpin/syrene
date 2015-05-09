@@ -1,0 +1,8 @@
+
+<Flavor>
+ <DefiniteFlavor></DefiniteFlavor>
+ <StrongFlavor></StrongFlavor>
+ <MaybeAssistanceRequest>
+  <AssistanceRequest>
+   <AssistanceInUsingShell>
+    <ShellName></ShellName></AssistanceInUsingShell></AssistanceRequest></MaybeAssistanceRequest></Flavor>

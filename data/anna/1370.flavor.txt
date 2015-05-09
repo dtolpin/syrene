@@ -1,0 +1,7 @@
+
+
+= Hypothesis =
+
+It is possible that there is a bug in RenderX code, localized in the SVG formatter, graphic library. It is possible that XML catalogs are not configured. 
+
+

@@ -1,0 +1,10 @@
+
+<Flavor>
+ <DefiniteFlavor></DefiniteFlavor>
+ <StrongFlavor></StrongFlavor>
+ <MaybeAssistanceRequest>
+  <AssistanceRequest>
+   <AssistanceInDocumentFormatting>
+    <ShortProductName>
+     <InRenderXSoftware></InRenderXSoftware></ShortProductName></AssistanceInDocumentFormatting>
+   <AssistanceInInstallingForeignSoftware></AssistanceInInstallingForeignSoftware></AssistanceRequest></MaybeAssistanceRequest></Flavor>

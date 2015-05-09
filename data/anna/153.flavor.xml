@@ -1,0 +1,13 @@
+
+<Flavor>
+ <DefiniteFlavor></DefiniteFlavor>
+ <StrongFlavor>
+  <ForeignBug>
+   <LikelyCause></LikelyCause>
+   <ProducedInputFormat>
+    <ViaXslFo></ViaXslFo>
+    <inputformat></inputformat></ProducedInputFormat></ForeignBug>
+  <EigenMisconf>
+   <LikelyCause></LikelyCause>
+   <ProductMisconf>
+    <InXep></InXep></ProductMisconf></EigenMisconf></StrongFlavor></Flavor>

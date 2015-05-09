@@ -1,0 +1,1710 @@
+# $Id: anne.synet,v 1.21 2008/08/11 16:04:38 dvd Exp $
+
+section *  Support requests dispatcher
+  ^summary, channel, product, complaint, configuration, artifacts
+
+section summary Summary
+  /subject/ Subject:  _________
+  /author/ Author:  _________
+
+section channel Request channel
+  <1> support@renderx.com
+  <2> xep-support@renderx.com
+  <3> RenderX salesman
+  <4> RenderX engineer
+  <9> other /other/ ________
+
+section product Application
+  +product 1-3 -> ^xepversion
+
+  <1> XEP
+   +product 1 -> ^xep
+  <2> XEPwin
+   +product 2 -> ^xepwin
+  <3> EnMasse
+   +product 3 -> ^enmasse
+
+section xepversion XEP version
+   <1> 3.*
+   <2> 4.*
+
+section xep
+   invoked via:
+    <1> command line driver
+    <2> XEP Assistant
+    <3> application
+    +xep 3 -> ^xepapp
+    <4> CLISER
+
+section xepapp
+   embedded into
+   <1> Java bean
+   <2> servlet
+   <3> Cocoon
+   <4> oXygenXML Editor
+   <9> another application /other/ _______
+
+section xepwin
+    invoked via:
+    <1> command line
+    <2> XEP Assistant
+    <2.5> ActiXEP
+    <3> .NET application
+
+section enmasse
+   <1> Actinia
+   <2> Toaster
+   <3> Fairy
+# Below is in assumption that there is a single complaint;
+# if the user presents several complaints, most likely,
+# they can be divided into separate cases. Otherwise, the
+# questionnaire should be adjusted to handle the request.
+section complaint Complaint
+   Formatting:
+   <1> rejects input (invalid, attribute errors etc.)
+   <2> does not produce result (or produces zero-width result)
+      +complaint 2 -> ^failure
+   <3> requires too much system resources (memory, CPU time, disk space)
+      +complaint 3 -> ^resourcedrain
+   <4> rejects external resources (error on a font or image)
+   <5> does not fetch external resources other the network (DTD, styles, fonts, images)
+   Result:
+   <6> broken (does not open in a viewer, could not be printed)
+      +complaint 6 -> ^brokenoutput
+   <7> does not meet user expectations
+      +complaint 7 -> ^disappointment
+   Difficulties during
+   initial setup:
+   <8.25> distribution download
+   <8> installation
+   <8.5> configuration
+     +complaint 8.5 -> ^settings
+   program launch and execution:
+   <8.75> passing input and specifying parameters
+   <9> embedding into another program via API
+   <10> diagnostics processing and interpretation
+   formatting:
+   <11> authoring the input (XSLT, XSL FO, DocBook etc.)
+   +complaint 11 -> ^markup
+   <11.5> tuning the output (processing-instruction)
+   <12> processing of the generated document (XEPOUT, PDF, PostScript etc.)
+   [upgrade] user upgrades to a newer version
+   +complaint.upgrade 2 -> ^upgrade
+   +complaint
+     0-7,8.5-12 -> ^inputformat
+     0,2-7,8.5-12 -> ^outputformat
+     0,2-7,9-12 -> ^extresource
+
+section failure
+  <1> fails on 'out of memory' error
+  <2> fails on error in the runtime environment or library
+  <3> loops forever
+  <3.5> stops prior to the actual formatting
+  <4> stops during the formatting 
+    +failure 4 -> ^markup
+
+section resourcedrain
+    [ram] requires too much memory
+    [hdd] takes too much disk space
+    [cpu] works too slowly
+    [net] fetches network resources too slowly
+
+section brokenoutput
+    <1> could not be opened in a viewer
+    <2> could not be printed
+
+section disappointment
+    <1> looses data
+    <2> distorts document (order changed, objects overlaid etc.)
+    <3> misinterprets additional settings (keep, break etc.)
+    <4> uses bad heuristics (esthetically inferior result)
+    <5> does not use external resources (does not fetch fonts or images)
+    <6> misuses or distorts external resources (images or fonts)
+    <7> suboptimally generated output format (e.g., can be improved by distiller)
+      +disappointment 0-4 -> ^markup
+
+section markup
+    +inputformat *-1,3-* -> ^xslfo
+    +inputformat 2 -> ^svg
+
+section xslfo
+    Mentioned XSL FO notions:
+    elements:
+    [master] page-*master*
+    [list] list-*
+    [table] table, table-*
+    [float] float
+    [footnote] footnote
+    [graphic] external-graphic, instream-foreign-object
+    [marker] marker, retrieve-marker
+    [index] index-*
+    [changebar] changebar-*
+    attributes:
+    [font] \@font-*
+    [indent] \@start-indent, \@end-indent
+    [widphans] \@widows, \@orphans
+    [overflow] \@overflow
+    [keep] \@keep
+    [break] \@break
+    [display-align] \@display-align
+    [relative-align] \@relative-align
+    [span] \@span
+    Contexts and algorithms:
+    [pagebreak] page boundary
+    [hyphenation] hyphenation
+    [justification] line justification and aligment
+    [unicode] unicode characters
+    [bidi]  bidirectionality
+
+section svg
+   Mentioned SVG notions:
+   [transparency] transparency
+   [gradient] gradient
+   [a] links
+   [inheritance] attribute inheritance
+   [bidi] bidirectionality
+
+section settings
+    <1> general parameters
+    <2> fonts
+     +settings 2 -> ^font
+    <3> hyphenation rules
+    <4> generator options
+
+# SVG is a separate input format since the SVG formatter is a separate
+# module inside XEP.
+section inputformat Input format
+    <1> XSL FO
+    <2> SVG (complaint about SVG contents)
+    <3> DocBook
+    <4> WordML
+    <5> XML+XSLT
+    <6> XEPOUT
+
+section upgrade
+    from
+    <1> 2.*
+    <2> 3.*
+    <3> 4.*
+    <4> XEP.NET 3
+    <5> FOP
+
+section outputformat Output format
+    <1> PostScript
+    <2> PDF
+    <3> AFP
+    <4> XEPOUT
+
+section extresource Problematic resource
+    <1> font
+      +extresource 1 -> ^font
+    <2> image
+      +extresource 2 -> ^image
+    <2.5> hyphenation table
+    <3> DTD
+    <4> XSLT stylesheet
+
+section font
+    <1> Type1
+    <2> TrueType
+    <3> OpenType
+    <4> SVG
+    <9> other /other/ ______
+
+section image
+    <1> GIF
+    <2> TIFF
+    <3> PNG
+    <4> JPEG
+    <5> EPS
+    <6> PDF
+    <7> SVG
+    <9> other /other/ ______
+
+section configuration Platform configuration
+   /os/ Operating system:
+     <1> Windows
+      +configuration.os 1 -> ^windows
+     <2> Mac OS X
+      +configuration.os 2 -> ^macosx
+     <3> Linux
+      +configuration.os 3 -> ^linux
+     <9> other /osother/ ___________
+
+   /ncpus/ Number of processors:
+     <1> 1
+     <2> 2
+     <3> 4
+     <4> 8 or more
+   /wordsize/ Word size:
+     <1> 32 bit
+     <2> 64 bit
+
+   Network access:
+   [proxy] proxy
+   [firewall] firewall
+
+   +configuration.firewall 2 -> ^firewall
+
+   +product
+     0-3 -> ^java
+     0,2 -> ^dotnet
+     0,3 -> ^python
+
+section windows
+    <1> Windows XP
+    <2> Windows 2000
+    <3> Windows Vista
+    <9> other /other/ ________
+
+section linux
+  /distribution/ Distribution:
+    <1> Debian
+    <2> Gentoo
+    <3> SUSE
+    <4> RedHat
+    <9> other /distother/ ________
+  /kernel/ Kernel version:
+    <1> 2.4.*
+    <2> 2.6.*
+    <9> other /kernother/ ________
+
+section macosx
+  /architecture/ Hardware platform:
+    <1> Intel
+    <2> PowerPC
+
+  /version/ OS version:
+    <2> Jaguar (10.2.*)
+    <3> Panther (10.3.*)
+    <4> Tiger (10.4.*)
+    <5> Leopard (10.5.*)
+
+section firewall
+  Firewall installed:
+  [local] on the formatting server
+  [gateway] on the router
+
+section java Java
+  /vendor/ Vendor:
+   <1> Sun
+   <2> IBM
+   <9> other /vendorother/ ________
+
+  /version/ Version:
+   <3> 1.3
+   <4> 1.4
+   <5> 1.5
+
+section dotnet .NET Framework
+  /version/ Version:
+   <1> 1.0
+   <2> 1.1
+   <3> 2.0
+   <4> 3.0
+
+section python Python
+   /version/ Version:
+   <2> 2.2
+   <3> 2.3
+   <4> 2.4
+   <5> 2.5
+
+table artifacts Artifacts
+   [provided] provided by user
+   [requested] requested by dispatcher
+   -+-
+   /source/ source document and/or stylesheet
+   /log/ execution log
+   /result/ generated document
+   /mockup/ result mockup
+   /config/ configuration file
+   /image/ image
+   /font/ font
+   /hyphen/ hyphenation table
+   /stacktrace/ stack trace
+   /script/ launch script
+   /codesample/ user code's sample
+   /patch/ patch to RenderX code
+
+### Explanation
+
+syndrome otherchannel request channel named
+  +channel 9 -> 1
+  +channel.other 1-* -> 1
+
+syndrome anychannel request channel specified
+  +channel 1-4 -> 1
+  +otherchannel 2 -> 1
+
+syndrome anycomplaint summary specified
+  +complaint 1-* -> 1
+  +complaint.upgrade 2 -> 1
+
+explanation *
+  =  @summary.subject
+  +summary.author 1-* -> by @summary.author
+  =\n\n
+
+  +anychannel 1-* -> ^channel
+  +product 1-* -> The user runs
+           1 -> ^xep
+           2 -> ^xepwin
+           3 -> ^enmasse
+           1-* -> .
+  +xepversion 1-* -> ^xepversion
+
+  +anycomplaint 1-* -> ^complaint
+  ^configuration
+  ^artifacts
+
+  ^Analysis
+
+## Evidence
+
+explanation channel
+  The request received through
+  +channel 1 -> dedicated support (support\@renderx.com)
+          2 -> public support list (xep-support\@renderx.com)
+          3 -> RenderX sales
+          4 -> a RenderX engineer
+          9 -> @channel.other
+  .
+
+explanation xep
+  XEP/Java
+    +xep 1 -> from the command line
+         2 -> via XEP Assistant
+         3 -> ^xepapp
+         4 -> via CLISER
+
+syndrome xepappunknown XEP invocation unknown
+  +xepapp 0 -> 4
+  +xepapp 9 -> 2
+  +xepapp.other 0 -> 1
+
+explanation xepapp
+  , called from
+  +xepappunknown 3-* -> a user program
+  +xepappunknown 2 -> program "@xepapp.other"
+  +xepapp 1 -> a Java bean
+          2 -> a servlet
+          3 -> Cocoon
+          4 -> oXygenXML Editor
+
+explanation xepwin
+  XEPwin
+  +xepwin 1 -> from the command line
+          2 -> via XEP Assistant
+          2.5 -> via ActiXEP
+          3 -> , called from a .NET application
+
+explanation xepversion
+  XEP version -
+   +xepversion 1 -> 3.*
+               2 -> 4.*
+  .
+
+explanation enmasse
+   EnMasse
+   +enmasse 1 -> Actinia
+            2 -> Toaster
+            3 -> Fairy
+
+syndrome just_images just images used
+  +extresource 2 -> 0.25
+  +image 0 -> 0.25
+  +xslfo.graphic 2 -> 0.5
+
+syndrome explicit_extresource external resources cause the problem
+  +resourcedrain.net 2 -> 1
+  +complaint 4-5 -> 1
+  +disappointment 5-6 -> 1
+  +just_images 1-* -> 1
+
+explanation complaint Complaint
+  +complaint.upgrade 2 -> User upgrades to a newer version
+  +upgrade 1-3 -> from XEP/Java 
+           1 -> 2.*
+           2 -> 3.*
+           3 -> 4.*
+           4 -> from XEP.NET 3.*
+           5 -> from Apache FOP
+  +complaint.upgrade 2 -> .
+
+  ^inoutwith
+
+  +complaint 1 -> The program rejects input
+             2 -> ^failure
+             3-5 -> The program
+             3 -> ^resourcedrain
+             4 -> rejects
+             5 -> does not fetch over the network
+             4-5 -> ^extresource
+             6 -> ^brokenoutput
+             7 -> ^disappointment
+             8-12 -> The user experiences difficulty
+             8.25 -> during distribution download
+             8 -> during installation
+             8.5 -> during configuration of
+             8.5 -> ^settings
+             8.75 -> while passing data and parameters for formatting
+             9 -> in embedding into another program via API
+             10 -> in interpretation and processing of diagnostics
+             11 -> creating the input document
+             11 -> ^markup
+             11.5 -> tuning the output format
+             12 -> in processing of the generated document
+  +explicit_extresource 0 -> ^when_extresource
+  +complaint 1-* -> .
+
+explanation failure
+   +failure 0 -> The program does not generate a result
+            1-2 -> Program execution is interrupted due to
+            1 -> memory shortage
+            2 -> an error in the runtime environment or a library
+            3 -> The program loops forever
+            3.5 -> The program stops prior to actual formatting
+            4 -> The formatting stops with an error message
+            4 -> ^markup
+
+
+syndrome any_resourcedrain resource overconsumption detailed
+  +resourcedrain.ram 2 -> 1
+  +resourcedrain.hdd 2 -> 1
+  +resourcedrain.cpu 2 -> 1
+  +resourcedrain.net 2 -> 1
+
+explanation resourcedrain
+   +any_resourcedrain 0 -> requires too much system resources,
+   +resourcedrain.ram 2 -> requires too much memory
+   +resourcedrain.hdd 2 -> takes too much disk space
+   +resourcedrain.cpu 2 -> runs too slowly
+   +resourcedrain.net 2 -> fetches 
+                      2 -> ^extresource
+                      2 -> too slowly
+
+explanation brokenoutput
+  +brokenoutput * -> The result cannot be
+                0,1,1.5 -> opened by another program
+                0 -> or
+                0,2 -> printed
+
+syndrome any_xslfo_elem XSL FO elements mentioned
+   +xslfo.master 2 -> 1
+   +xslfo.list 2 -> 1
+   +xslfo.table 2 -> 1
+   +xslfo.float 2 -> 1
+   +xslfo.footnote 2 -> 1
+   +xslfo.graphic 2 -> 1
+   +xslfo.marker 2 -> 1
+   +xslfo.index 2 -> 1
+   +xslfo.changebar 2 -> 1
+
+syndrome any_xslfo_attr XSL FO attributes mentioned
+   +xslfo.font 2 -> 1
+   +xslfo.indent 2 -> 1
+   +xslfo.widphans 2 -> 1
+   +xslfo.overflow 2 -> 1
+   +xslfo.keep 2 -> 1
+   +xslfo.break 2 -> 1
+   +xslfo.display-align 2 -> 1
+   +xslfo.relative-align 2 -> 1
+   +xslfo.span 2 -> 1
+
+syndrome any_xslfo_feature XSL FO contents mentioned
+   +xslfo.pagebreak 2 -> 1
+   +xslfo.hyphenation 2 -> 1
+   +xslfo.justification 2 -> 1
+   +xslfo.unicode 2 -> 1
+   +xslfo.bidi 2 -> 1
+
+syndrome any_xslfo_elemattr elements or attributes mentioned
+    +any_xslfo_elem 1-* -> 1
+    +any_xslfo_attr 1-* -> 1
+
+syndrome any_xslfo complaint is augmented by XSL FO notions
+   +any_xslfo_elem 1-* -> 1
+   +any_xslfo_attr 1-* -> 1
+   +any_xslfo_feature 1-* -> 1
+
+syndrome xslfo_interference settings when elements or attributes
+   +any_xslfo_elem 1-* -> 1
+   +any_xslfo_attr 1-* -> 2
+
+syndrome any_svg complaint detailed by SVG notions
+   +svg.transparency 2 -> 1
+   +svg.gradient 2 -> 1
+   +svg.a 2 -> 1
+   +svg.inheritance 2 -> 1
+   +svg.bidi 2 -> 1
+
+explanation disappointment
+   +disappointment 0-2 -> The result
+                   0 -> does not meet user expectations
+                   1 -> does not contain a part of user data
+                   2 -> is distorted
+                   3 -> In the generated document
+                   3 -> ^interference
+   +disappointment 4 -> The result shows bad heuristics
+   
+                   5-6 -> During formatting
+                   5-6 -> ^extresource
+                   5-6 -> are
+                   5 -> ignored
+                   6 -> misused
+                   7 -> The result is generated suboptimally
+   +disappointment 0-4 -> ^markup
+
+explanation interference
+   +xslfo_interference 0 -> additional settings are
+                       1 -> interaction of elements and attributes
+                       2 -> influence
+                       3 -> interaction
+                       1-3 -> is
+                       0-3 -> not taken into account
+
+explanation markup
+   +any_xslfo 1-* -> ^xslfo
+   +any_svg 1-* -> ^svg
+
+explanation xslfo
+   +xslfo_interference 1-* -> for
+   +xslfo.master 2 -> page masters,
+   +xslfo.list 2 -> lists,
+   +xslfo.table 2 -> tables,
+   +xslfo.float 2 -> floats,
+   +xslfo.footnote 2 -> footnotes,
+   +xslfo.graphic 2 -> images,
+   +xslfo.marker 2 -> markers,
+   +xslfo.index 2 -> indices,
+   +xslfo.changebar 2 -> changebars,
+   +any_xslfo_elemattr 2 -> << and
+   +any_xslfo_attr 1 -> attribute
+   +any_xslfo_attr 2-* -> attributes
+   +xslfo.font 2 -> 'font-*',
+   +xslfo.indent 2 -> '*-indent',
+   +xslfo.widphans 2 -> 'orphans', 'widows',
+   +xslfo.overflow 2 -> 'overflow',
+   +xslfo.keep 2 -> 'keep-*',
+   +xslfo.break 2 -> 'break-*',
+   +xslfo.display-align 2 -> 'display-align',
+   +xslfo.relative-align 2 -> 'relative-align',
+   +xslfo.span 2 -> 'span',
+   +any_xslfo_feature 1-* -> << 
+   +xslfo.pagebreak 2 -> in context of page boundaries,
+   +xslfo.hyphenation 2 -> with respect to hyphenation,
+   +xslfo.justification 2 -> with respect to line justification,
+   +xslfo.unicode 2 -> in case of unicode characters,
+   +xslfo.bidi 2 -> in case of bidirectional text,
+
+explanation svg
+  +any_svg 1-* -> for 
+  +svg.transparency 2 -> transparency,
+  +svg.gradient 2 -> gradient,
+  +svg.a 2 -> links,
+  +svg.inheritance 2 -> attribute inheritance,
+  +svg.bidi 2 -> bidirectionality,
+
+explanation settings
+   +settings 1 -> general parameters
+             2 -> fonts
+             2 -> ^font
+             3 -> hyphenation rules
+             4 -> generator options
+
+syndrome input_output input and output formats specified
+  +inputformat 1-* -> 1
+  +outputformat 1-* -> 1
+
+explanation inoutwith
+  +input_output 1-* -> The user
+                2 -> transforms
+                2 -> ^inputformat
+                2 -> into
+                2 -> ^outputformat
+                1 -> ^inorout
+                1-* -> .
+
+explanation inorout
+  +inputformat 1-* -> submits
+               1-* -> ^inputformat
+  +outputformat 1-* -> generates
+                1-* -> ^outputformat
+
+explanation inputformat
+  +inputformat 1 -> XSL FO
+               2 -> a document containing SVG
+               3 -> DocBook
+               4 -> WordML
+               5 -> XML+XSLT
+               6 -> XEPOUT
+
+explanation outputformat
+  +outputformat 1 -> PostScript
+                2 -> PDF
+                3 -> AFP
+                4 -> XEPOUT
+
+explanation extresource
+  +extresource 0 -> external resources
+               1 -> ^font
+               1 -> fonts
+               2 -> ^image
+               2 -> images
+               2.5 -> hyphenation tables
+               3 -> DTD
+               4 -> XSLT stylesheets
+
+explanation when_extresource
+  +extresource 1-* -> when 
+               1-* -> ^extresource
+               1-* -> are used.
+
+explanation font
+   +font 1 -> Type1
+         2 -> TrueType
+         3 -> OpenType
+         9 -> @font.other
+
+explanation image
+   +image 1 -> GIF
+          2 -> TIFF
+          3 -> PNG
+          4 -> JPEG
+          5 -> EPS
+          6 -> PDF
+          7 -> SVG
+          9 -> @image.other
+
+syndrome any_os os specified
+   +configuration.os 1-8 -> 1
+   +os_other 2-* -> 1
+
+syndrome os_other OS named
+   +configuration.os 9 -> 2
+   +configuration.osother 1-* -> 1
+
+syndrome any_runtime runtime details specified
+    +any_java 1-* -> 1
+    +any_dotnet 1-* -> 1
+    +any_python 1-* -> 1
+
+syndrome any_java Java details specified
+    +java.version 1-* -> 1
+    +java.vendor 1-* -> 1
+
+syndrome any_python Python details specified
+    +python.version 1-* -> 1
+
+syndrome any_dotnet .NET Framework details specified
+    +dotnet.version 1-* -> 1
+
+explanation configuration Configuration
+   +configuration.os 1-* -> OS 
+                     1 -> ^windows
+                     2 -> ^macosx
+                     3 -> ^linux
+    +os_other 3 -> @configuration.osother
+              2 ->  of unknown type
+   +configuration.os 1-* -> is installed on the user's computer.
+
+   +configuration.ncpus 1-* -> The computer has 
+                        1 -> a single processor
+                        2 -> two processors
+                        3 -> four processors
+                        4 -> eight or more processors
+                        1-* -> .
+    +configuration.wordsize 1-* -> The word size is
+                            1 -> 32 bit
+                            2 -> 64 bit
+                            1-* -> .
+
+    \n\n
+    +configuration.proxy 1-* -> Network access is
+                         1 -> direct (no proxy)
+                         2 -> via a proxy
+                         1-* -> .
+    +configuration.firewall 1 -> No firewall is installed
+                            2 -> ^firewall
+                            1-* -> .
+    \n\n
+    +any_java 1-* -> ^java
+              1-* -> ,
+
+    +any_dotnet 1-* -> ^dotnet
+                1-* -> ,
+    +any_python 1-* -> ^python
+                1-* -> ,
+    +any_runtime 1-* -> <<
+                 1 -> is
+                 2-* -> are
+                 1-* -> used.
+
+syndrome other_windows  Windows version named
+  +windows 9 -> 2
+  +windows.other 1-* -> 1
+
+explanation windows
+  +windows 0 -> Windows
+           1 -> Windows XP
+           2 -> Windows 2000
+           3 -> Windows Vista
+  +other_windows 3 -> @windows.other
+                 2 -> Windows
+
+explanation macosx
+  Mac OS X
+  +macosx.version 2 -> Jaguar
+                  3 -> Panther
+                  4 -> Tiger
+                  5 -> Leopard
+
+syndrome other_linux_dist Linux distribution named
+  +linux.distribution 9 -> 1
+  +linux.distother 1-* -> 1
+
+syndrome linux_kernel Linux kernel version named
+  +linux.kernel 1-2 -> 4
+  +linux.kernel 9 -> 2
+  +linux.kernother 1-* -> 1
+
+explanation linux
+  +linux.distribution 1 -> Debian
+                      2 -> Gentoo
+                      3 -> SUSE
+                      4 -> RedHat
+  +other_linux_dist 2 -> @linux.distother
+  Linux
+  +linux_kernel 3-* -> with kernel version
+  +linux.kernel 1 -> 2.4
+                2 -> 2.6
+                9 -> @linux.kernother
+
+syndrome where_firewall firewall installation detailed
+  +firewall.local 2 -> 1
+  +firewall.gateway 2 -> 1
+
+explanation firewall
+  Firewall is installed
+  +firewall.local 2 -> on the formatting server
+  +where_firewall 2 -> and
+  +firewall.gateway 2 -> on the router
+
+explanation java
+   +java.vendor 1 -> Sun
+                2 -> IBM
+                9 -> @java.vendorother
+   Java
+   +java.version 3 -> 1.3
+                 4 -> 1.4
+                 5 -> 1.5
+
+explanation dotnet
+   \ .NET Framework
+   +dotnet.version 1 -> 1.0
+                   2 -> 1.1
+                   3 -> 2.0
+                   4 -> 3.0
+
+explanation python
+   Python
+   +python.version 2 -> 2.2
+                   3 -> 2.3
+                   4 -> 2.4
+                   5 -> 2.5
+
+syndrome any_arti_provided mentioned provided artifacts
+  +artifacts.source.provided 2 -> 1
+  +artifacts.log.provided 2 -> 1
+  +artifacts.result.provided 2 -> 1
+  +artifacts.mockup.provided 2 -> 1
+  +artifacts.config.provided 2 -> 1
+  +artifacts.image.provided 2 -> 1
+  +artifacts.font.provided 2 -> 1
+  +artifacts.hyphen.provided 2 -> 1
+  +artifacts.stacktrace.provided 2 -> 1
+  +artifacts.script.provided 2 -> 1
+  +artifacts.codesample.provided 2 -> 1
+  +artifacts.patch.provided 2 -> 1
+
+syndrome any_arti_requested mentioned requested artifacts
+  +artifacts.source.requested 2 -> 1
+  +artifacts.log.requested 2 -> 1
+  +artifacts.result.requested 2 -> 1
+  +artifacts.mockup.requested 2 -> 1
+  +artifacts.config.requested 2 -> 1
+  +artifacts.image.requested 2 -> 1
+  +artifacts.font.requested 2 -> 1
+  +artifacts.hyphen.requested 2 -> 1
+  +artifacts.stacktrace.requested 2 -> 1
+  +artifacts.script.requested 2 -> 1
+  +artifacts.codesample.requested 2 -> 1
+  +artifacts.patch.requested 2 -> 1
+
+syndrome arti_proreq mentioned provided and requested artifacs
+  +any_arti_provided 1-* -> 1
+  +any_arti_requested 1-* -> 2
+
+explanation artifacts Artifacts
+  +any_arti_provided 1-* -> The user provided
+  +artifacts.source.provided 2 -> source document or stylesheet,
+  +artifacts.log.provided 2 -> execution log,
+  +artifacts.result.provided 2 -> generated document,
+  +artifacts.mockup.provided 2 -> result mockup,
+  +artifacts.config.provided 2 -> configuration file,
+  +artifacts.image.provided 2 -> image,
+  +artifacts.font.provided 2 -> font,
+  +artifacts.hyphen.provided 2 -> hyphenation table,
+  +artifacts.stacktrace.provided 2 -> stack trace,
+  +artifacts.script.provided 2 -> launch script,
+  +artifacts.codesample.provided 2 -> code sample,
+  +artifacts.patch.provided 2 -> patch to RenderX code,
+  +any_arti_provided 1-* -> .
+  +arti_proreq  3 -> Additionally, the dispatcher
+  +arti_proreq 2 -> The dispatcher
+  +any_arti_requested 1-* -> requested
+  +artifacts.source.requested 2 -> source document or stylesheet,
+  +artifacts.log.requested 2 -> execution log,
+  +artifacts.result.requested 2 -> generated document,
+  +artifacts.mockup.requested 2 -> result mockup,
+  +artifacts.config.requested 2 -> configuration file,
+  +artifacts.image.requested 2 -> image,
+  +artifacts.font.requested 2 -> font,
+  +artifacts.hyphen.requested 2 -> hyphenation table,
+  +artifacts.stacktrace.requested 2 -> stack trace,
+  +artifacts.script.requested 2 -> launch script,
+  +artifacts.codesample.requested 2 -> code sample,
+  +artifacts.patch.requested 2 -> patch to RenderX code,
+  +any_arti_requested 1-* -> .
+
+explanation Analysis
+  ^Flavor
+  ^Skills
+
+# Request credibility
+
+syndrome IndianProgrammer indian programmer
+  +channel 4 -> 1
+  +any_arti_provided 3-* -> 1
+  +xepapp 1-2 -> 1
+
+syndrome BankCustomer bank automation department
+  +channel 3 -> 2
+  +product 2 -> 1
+  +configuration.ncpus 2-* -> 1
+  +configuration.firewall 1 -> 1
+  +configuration.proxy 1 -> 1
+  +upgrade 1 -> 1
+           4 -> 2
+
+syndrome TechnologyExpert technology expert
+  +channel 2 -> 1
+  +arti_proreq 1 -> 1
+  +any_xslfo 3-* -> 1
+
+syndrome XepBug core bug
+  -10
+  +AnyXepBug 1-* -> 10 # the bug can be classified
+
+  # misbehaves
+  +failure 3 -> 2
+           4 -> 2
+
+  # looks like bug complaints
+  +complaint 3 -> 1
+             4 -> 1
+             6 -> 2
+             7 -> 1
+             11 -> 1
+             11.5 -> 1
+
+  # combined cases
+  +any_xslfo 2 -> 1
+             3-* -> 2
+  +any_svg   1 -> 1
+             2-* -> 2
+
+  +RejectsBareInput 2-* -> 1
+
+  # hard to reproduce
+  +arti_proreq 3 -> 2
+  +any_os      1-* -> 1
+
+  # human factor
+  +IndianProgrammer 2   -> -1
+                    3-* -> -2
+  +BankCustomer     3-* -> -1
+  +TechnologyExpert 2-* -> +1
+
+syndrome RejectsBareInput rejects bare input
+  +complaint 1 -> 1
+  +inputformat 1-2 -> 1
+
+syndrome AnyXepBug core bug can be classified
+  +PreBug 1-* -> 1
+  +FmtBug 1-* -> 1
+  +SvgBug 1-* -> 1
+  +GenBug 1-* -> 1
+  +ImageBug 1-* -> 1
+  +FontBug 1-* -> 1
+
+syndrome PreBug bug in preprocessor or validator
+  +inputformat 2,6 -> -1
+  +failure 4 -> 1
+  +complaint 1 -> 1
+
+  +disappointment 1-3 -> 0.5
+  +PreMarkup 1-* -> 0.5
+
+syndrome PreMarkup markup tweaked by the preprocessor
+  +xslfo.table 2 -> 1
+  +xslfo.marker 2 -> 1
+  +xslfo.bidi 2 -> 1
+
+syndrome MarkupBug
+  +failure 4 -> 1
+  +disappointment 1-4 -> 1
+  +complaint 11 -> 1
+             12 -> 1
+
+syndrome FmtBug XSL formatter bug
+  +inputformat 2,6  -> -1
+  +MarkupBug 1-* -> 1
+
+syndrome SvgBug SVG formatter bug
+  +inputformat 2 -> 0.5
+  +MarkupBug 1-* -> 0.5
+  +image 7 -> 1
+
+syndrome GenBug generator bug
+  +outputformat 0 -> -1
+  +failure 4 -> 1
+  +complaint 4 -> 1
+             6 -> 2
+             11.5 -> 2
+             12 -> 2
+  +disappointment 6 -> 1
+                  7 -> 2
+
+syndrome ImageBug image library bug
+  +extresource 2 -> 1
+  +artifacts.image.provided 2 -> 1
+  +artifacts.image.requested 2 -> 1
+  +complaint 5 -> -1
+
+syndrome FontBug font library bug
+  +extresource 1 -> 1
+  +artifacts.font.provided 2 -> 1
+  +artifacts.font.requested 2 -> 1
+  +complaint 5 -> -1
+
+syndrome ApiBug API bug
+  -3
+  +xep 3 -> 3
+  +xepwin 3 -> 3
+  +enmasse 2-3 -> 3
+
+  +complaint 9 -> 1
+             10 -> 1
+  +artifacts.codesample.provided 2 -> 1
+
+  +IndianProgrammer 2-* -> -1
+                    3 -> -2
+
+syndrome ShellBug bug in RenderX application
+  -10
+  +AnyShellBug 1-* -> 10
+
+  # Looks like a bug close to the core
+  +failure 3.5 -> 1
+  +ShellSettings 1-* -> 1
+  +complaint 8.75 -> 1
+             10 -> 1
+
+  # User provided a patch
+  +artifacts.patch.provided 2 -> 1
+
+  +TechnologyExpert 2-* -> 1
+
+syndrome ShellSettings
+  +complaint 8.5 -> 0.5
+  +settings 0 -> 0.5
+            1 -> 0.5
+
+syndrome AnyShellBug
+  +XepCmdLineBug 1-* -> 1
+  +XepWinCmdLineBug 1-* -> 1
+  +XepAssistantBug 1-* -> 1
+  +XepWinAssistantBug 1-* -> 1
+  +ActiXepBug 1-* -> 1
+  +EnmasseBug 1-* -> 1
+
+syndrome XepCmdLineBug XEP launched from command line
+  +xep 1 -> 1
+
+syndrome XepWinCmdLineBug XEPwin launched from command line
+  +xepwin 1 -> 1
+
+syndrome XepAssistantBug XEP launched from XEP Assistant
+  +xep 2 -> 1
+
+syndrome XepWinAssistantBug XEPwin launched from XEPwin Assistant
+  +xepwin 2 -> 1
+
+syndrome ActiXepBug ActiXep used
+  +xepwin 2.5 -> 1
+
+syndrome EnmasseBug EnMasse used
+  +product 3 -> 1
+
+syndrome ForeignBug bug in a programm used together with RenderX
+  -10
+  +AnyForeignBug 1-* -> +10
+
+  # called from CMS, things are complicated
+  +xep 3 -> 1
+  +xepwin 3 -> 1
+  +enmasse 2-3 -> 1
+
+  # indirect input
+  +inputformat 3 -> 1
+               4 -> 2
+               5 -> 1
+
+  # looks like an environment complaint
+  +complaint 1,6 -> 1
+  +failure 2 -> 2
+           3.5 -> 1
+
+  +OddRuntime 1-* -> 1
+
+  +BankCustomer     3-* -> +1  # often don't know where to send
+  +TechnologyExpert 2-* -> -2  # usually knows where to send
+
+syndrome OddRuntime odd execution environment
+  +configuration.os 9 -> 1
+  +java.vendor 2,9 -> 1
+
+syndrome AnyForeignBug bug in programs used with RenderX can be classified
+  +ProducerBug 1-* -> 1
+  +ConsumerBug 1-* -> 1
+  +EnvBug 1-* -> 1
+  +InvokeBug 1-* -> 1
+
+syndrome ProducerBug bug in a program producing input for RenderX
+  +complaint 1,5,7,11 -> 1
+  +failure 3.5 -> 1
+
+syndrome ConsumerBug bug in program consuming output from RenderX
+  +complaint 6,12 -> 1
+
+syndrome EnvBug bug in execution environment
+  +failure 2,4 -> 1
+
+syndrome InvokeBug launch bug
+  -1
+  +xep 3 -> 1
+  +xepwin 3 -> 1
+  +enmasse 2-3 -> 1
+  +failure 3.5 -> 1
+  +complaint 9 -> 2
+
+syndrome EigenMisconf RenderX misconfiguration
+  +resourcedrain.hdd 2 -> 1
+  +HeuriConf 1-* -> 1
+  +disappointment 7 -> 1
+  +complaint 10 -> 1
+  +complaint.upgrade 2 -> 1
+
+  +EigenMisconfArtifacts 1-3 -> 1
+                         4 -> 2
+
+syndrome HeuriConf configurable heuristics
+  -10
+  +disappointment 5 -> 10
+  +xslfo.hyphenation 2 -> 1
+  +xslfo.justification 2 -> 1
+
+syndrome EigenMisconfArtifacts misconfiguration artifacts
+  +artifacts.config.requested 2 -> 2
+  +artifacts.config.provided 2 -> 1
+  +artifacts.log.provided 2 -> 1
+  +artifacts.log.requested 2 -> 1
+
+syndrome RuntimeMisconf  Runtime misconfiguration
+   +BoundedHeap 2 -> 1
+                3-* -> 2
+   +Contentions 1-* -> 1
+
+   +BankCustomer 3-* -> 1
+
+syndrome BoundedHeap bounded heap size
+   +resourcedrain.ram 2 -> 2
+   +failure 1 -> 2
+   +xslfo.table 2 -> -1 # tables are time-consuming
+   +product 2 -> 1 # xepwin complicates java heap configuration
+
+syndrome Contentions contentions
+   +configuration.ncpus 2-* -> 0.5
+   +resourcedrain.cpu 2 -> 0.5
+
+syndrome NetMisconf network misconfiguration
+   +resourcedrain.net 2 -> 1
+   +complaint 5 -> 1
+
+   +NetAccess 1-* -> 1
+   +NoCliser 1-2 -> 1
+             3 -> 2
+
+   +TechnologyExpert 2-* -> -1
+ 
+syndrome NetAccess controlled net access
+   +configuration.firewall 2 -> 1
+   +firewall.gateway 2 -> 1
+   +configuration.proxy 2 -> 1
+
+syndrome NoCliser CLISER does not connect
+   -3
+   +product 2,3 -> 3
+   +failure 3.5 -> 1
+   +configuration.firewall 2 -> 1
+   +firewall.local 2 -> 1
+
+syndrome CatalogMisconf
+  -10
+  +CatalogsInvolved 1-* -> 10
+                     2-* -> 1
+  +resourcedrain.cpu 2 -> 1
+  +resourcedrain.net 2 -> 2
+
+syndrome CatalogsInvolved catalogs are used
+  +extresource 3,4 -> 1
+  +inputformat 3 -> 1
+  +SvgInput 1-* -> 1
+
+syndrome SvgInput SVG input
+  +image 7 -> 1
+  +inputformat 2 -> 1
+
+syndrome DefiniteFlavor definite flavour
+  +XepBug 3-* -> 1
+  +ApiBug 3-* -> 1
+  +ShellBug 3-* -> 1
+  +ForeignBug 3-* -> 1
+  +EigenMisconf 3-* -> 1
+  +RuntimeMisconf 3-* -> 1
+  +NetMisconf 3-* -> 1
+  +CatalogMisconf 3-* -> 1
+
+syndrome StrongOrDefiniteFlavor strong or definite flavour
+  +XepBug 2-* -> 1
+  +ApiBug 2-* -> 1
+  +ShellBug 2-* -> 1
+  +ForeignBug 2-* -> 1
+  +EigenMisconf 2-* -> 1
+  +RuntimeMisconf 2-* -> 1
+  +NetMisconf 2-* -> 1
+  +CatalogMisconf 2-* -> 1
+
+syndrome AnyFlavor any flavour
+  +XepBug 1-* -> 1
+  +ApiBug 1-* -> 1
+  +ShellBug 1-* -> 1
+  +ForeignBug 1-* -> 1
+  +EigenMisconf 1-* -> 1
+  +RuntimeMisconf 1-* -> 1
+  +NetMisconf 1-* -> 1
+  +CatalogMisconf 1-* -> 1
+
+syndrome MaybeAssistanceRequest assistance request
+  +AnyFlavor 0 -> 1
+  +complaint 8 -> 1
+             8-12 -> 1
+  +ClearArtifacts 1-* -> 1
+  +BankCustomer 2-* -> 1
+
+syndrome AssistanceRequest
+  +MaybeAssistanceRequest 2-* -> 2
+                          1 -> 1
+  +AnyFlavor 0 -> 1
+
+syndrome ClearArtifacts clear artifacts submitted
+  +any_arti_provided *-2 -> 0.5
+  +any_arti_requested 0 -> 0.5
+
+explanation Flavor Hypothesis
+  ^DefiniteFlavor
+  +DefiniteFlavor 0,2-* -> ^StrongFlavor
+  +StrongOrDefiniteFlavor 0 -> ^MaybeAssistanceRequest
+
+explanation MaybeAssistanceRequest
+  +AssistanceRequest 2-* -> ^AssistanceRequest
+                     *-1 -> ^WeakFlavor
+
+explanation DefiniteFlavor
+  +XepBug 3-* -> ^XepBug
+  +ApiBug 3-* -> ^ApiBug
+  +ShellBug 3-* -> ^ShellBug
+  +ForeignBug 3-* -> ^ForeignBug
+  +EigenMisconf 3-* -> ^EigenMisconf
+  +RuntimeMisconf 3-* -> ^RuntimeMisconf
+  +NetMisconf 3-* -> ^NetMisconf
+  +CatalogMisconf 3-* -> ^CatalogMisconf
+
+explanation StrongFlavor
+  +XepBug 2 -> ^XepBug
+  +ApiBug 2 -> ^ApiBug
+  +ShellBug 2 -> ^ShellBug
+  +ForeignBug 2 -> ^ForeignBug
+  +EigenMisconf 2 -> ^EigenMisconf
+  +RuntimeMisconf 2 -> ^RuntimeMisconf
+  +NetMisconf 2 -> ^NetMisconf
+  +CatalogMisconf 2 -> ^CatalogMisconf
+
+explanation WeakFlavor
+  +XepBug 1 -> ^XepBug
+  +ApiBug 1 -> ^ApiBug
+  +ShellBug 1 -> ^ShellBug
+  +ForeignBug 1 -> ^ForeignBug
+  +EigenMisconf 1 -> ^EigenMisconf
+  +RuntimeMisconf 1 -> ^RuntimeMisconf
+  +NetMisconf 1 -> ^NetMisconf
+  +CatalogMisconf 1 -> ^CatalogMisconf
+
+explanation MaybeCause
+  It is possible that
+
+explanation LikelyCause
+  Looks like
+
+explanation SureCause
+  Most probably,
+
+explanation InRenderX
+  RenderX code, localized in the
+  +PreBug 1-* -> ^InPre
+  +FmtBug 1-* -> ^InFmt
+  +SvgBug 1-* -> ^InSvg
+  +GenBug 1-* -> ^InGen
+  +FontBug 1-* -> ^InFont
+  +ImageBug 1-* -> ^InImage
+  .
+
+explanation InPre
+  preprocessor,
+
+explanation InFmt
+  formatting core,
+
+explanation InSvg
+  SVG formatter,
+
+explanation InGen
+  +GenBug 1-* -> ^outputformat
+          1-* -> backend
+          1-* -> ,
+
+explanation InFont
+  font library,
+
+explanation InImage
+  graphic library,
+
+explanation XepBug
+  +XepBug 1 -> ^MaybeCause
+          2 -> ^LikelyCause
+          3-* -> ^SureCause
+  there is a bug in
+  ^InRenderX
+
+explanation InRenderXSoftware
+  RenderX software
+
+explanation InXep
+  XEP/Java
+
+explanation InXepAPI
+  ^InXep
+  API
+
+explanation InXepWin
+  XEPwin
+
+explanation InXepWinAPI
+  ^InXepWin
+  API
+
+explanation InActiXep
+  ActiXEP
+
+explanation InEnmasse
+  Enmasse
+  +enmasse 1 -> ^InActinia
+           2 -> ^InToaster
+           3 -> ^InFairy
+
+explanation InEnmasseClient
+  ^InEnmasse
+  client
+
+explanation InActinia
+  Actinia
+
+explanation InToaster
+  Toaster
+
+explanation InFairy
+  Fairy
+
+explanation ApiBug
+  +ApiBug 1 -> ^MaybeCause
+          2 -> ^LikelyCause
+          3-* -> ^SureCause
+  there is a bug in
+  +product 1 -> ^InXepAPI
+           2 -> ^InXepWinAPI
+           3 -> ^InEnmasseClient
+
+  .
+
+explanation InAnyShell
+  one of RenderX applications
+
+explanation InXepCmdLine
+  ^InXep
+  command line driver
+
+explanation InXepWinCmdLine
+  ^InXepWin
+  command line driver
+
+explanation InXepAssistant
+  ^InXep
+  Assistant
+
+explanation InXepWinAssistant
+  ^InXepWin
+  Assistant
+
+explanation InActiXEP
+  ^InXepWin
+  ActiXEP
+
+explanation ShellBug
+  +ShellBug 1 -> ^MaybeCause
+            2 -> ^LikelyCause
+            3-* -> ^SureCause
+  there is a bug in
+  +AnyShellBug 2-* -> ^InAnyShell
+  +XepCmdLineBug 1-* -> ^InXepCmdLine
+  +XepWinCmdLineBug 1-* -> ^InXepWinCmdLine
+  +XepAssistantBug 1-* -> ^InXepAssistant
+  +XepWinAssistantBug 1-* -> ^InXepWinAssistant
+  +ActiXepBug 1-* -> ^InActiXep
+  +EnmasseBug 1-* -> ^InEnmasse
+  .
+
+explanation InEnv
+  in the runtime environment or system libraries,
+
+explanation ForeignBug
+  +ForeignBug 1 -> ^MaybeCause
+              2 -> ^LikelyCause
+              3-* -> ^SureCause
+  there is a third-party bug 
+  +ProducerBug 1-* -> ^ProducedInputFormat
+  +ConsumerBug 1-* -> ^ConsumedOutputFormat
+  +EnvBug 1-* -> ^InEnv
+  +InvokeBug 1-* -> ^InvokeBug
+  .
+
+explanation InvokeBug
+  in the way
+  +product 0 -> ^InRenderXSoftware
+           1 -> ^InXep
+           2 -> ^InXepWin
+           0-2 -> is invoked
+           3 -> ^InEnmasse
+           3 -> is called
+  from another program,
+
+explanation ViaXslFo
+  XSL FO
+
+explanation ViaSvg
+  SVG
+
+explanation ProducedInputFormat
+  during
+  +inputformat *-1,3-* -> ^ViaXslFo
+               2 -> ^ViaSvg
+  generation
+  +inputformat 3-* -> from
+               3-* -> ^inputformat
+  ,
+
+explanation ConsumedOutputFormat
+  during
+  +outputformat 0 -> formatting result
+                1-* -> ^outputformat
+  processing,
+
+syndrome FontConf font configuration
+  +extresource 1 -> 1
+  +artifacts.font.provided 1 -> 1
+
+syndrome BackendConf backend configuration
+  +disappointment 7 -> 1
+
+syndrome SpecificEigenConf configuration section hypothesis
+  +FontConf 1-* -> 1
+  +BackendConf 1-* -> 1
+
+explanation InFontConf
+  fonts,
+
+explanation InBackendConf
+  generator options,
+
+explanation EigenMisconf
+  +EigenMisconf 1 -> ^MaybeCause
+                2 -> ^LikelyCause
+                3 -> ^SureCause
+  there is a bug in configuration of
+  +FontConf 1-* -> ^InFontConf
+  +BackendConf 1-* -> ^InBackendConf
+  +SpecificEigenConf 0 -> ^ProductMisconf
+  .
+
+explanation ProductMisconf
+  +product 0 -> ^InRenderXSoftware
+           1-2 -> ^InXep
+           3 -> ^InEnmasse
+           3 -> or
+           3 -> ^InXep
+
+explanation ViaProxy
+  proxy,
+
+explanation ViaFirewall
+  firewall,
+
+explanation NetMisconf
+  +NetMisconf 1 -> ^MaybeCause
+              2 -> ^LikelyCause
+              3 -> ^SureCause
+  the network access 
+  +NetAccess 1-* -> via
+  +configuration.proxy 2 -> ^ViaProxy
+  +configuration.firewall 2 -> ^ViaFirewall
+  is misconfigured.
+
+explanation CatalogMisconf
+  +CatalogMisconf 1 -> ^MaybeCause
+                  2 -> ^LikelyCause
+                  3 -> ^SureCause
+  XML catalogs are not configured.
+
+explanation RuntimeMisconf
+   +RuntimeMisconf 1 -> ^MaybeCause
+                   2 -> ^LikelyCause
+                   3 -> ^SureCause
+   the runtime is misconfigured.
+
+explanation AssistanceInDocumentFormatting
+  document formatting with
+  ^ShortProductName
+  ,
+
+explanation AssistanceInCallingViaAPI
+  calling 
+  ^ShortProductName
+  via API,
+
+explanation AssistanceInUsingShell
+  using
+  ^ShellName
+  ,
+
+explanation AssistanceInInstallingForeignSoftware
+  installation and configuration of accompanying software,
+
+explanation AssistanceInConfiguringRenderX
+  configuring
+  ^ShortProductName
+  ,
+
+explanation AssistanceInConfiguringRuntime
+  runtime configuration and launch for
+  ^ShortProductName
+  ,
+
+explanation AssistanceInConfiguringNetwork
+  configuring network access,
+
+explanation AssistanceInXMLCatalogs
+  configuring XML catalogs,
+
+explanation JustAssistance
+  using 
+  ^ShortProductName
+  ,
+
+explanation AssistanceRequest
+  The user asks for assistance in
+  +XepBug 1 -> ^AssistanceInDocumentFormatting
+  +ApiBug 1 -> ^AssistanceInCallingViaAPI
+  +ShellBug 1 -> ^AssistanceInUsingShell
+  +ForeignBug 1 -> ^AssistanceInInstallingForeignSoftware
+  +EigenMisconf 1 -> ^AssistanceInConfiguringRenderX
+  +RuntimeMisconf 1 -> ^AssistanceInConfiguringRuntime
+  +NetMisconf 1 -> ^AssistanceInConfiguringNetwork
+  +CatalogMisconf 1 -> ^AssistanceInXMLCatalogs
+  +AnyFlavor 0 -> ^JustAssistance
+  .
+
+explanation Skills Required Qualification
+  To provide assistance, the knowledge of
+  +XepBug 1-* -> \n—
+          1-* -> ^XepSkills
+  +ApiBug 1-* -> \n—
+          1-* -> ^ApiSkills
+  +ShellBug 1-* -> \n—
+            1-* -> ^ShellSkills
+  +ForeignBug 1-* -> \n—
+              1-* -> ^ForeignSkills
+  +EigenMisconf 1-* -> \n—
+                1-* -> ^EigenConfSkills
+  +RuntimeMisconf 1-* -> \n—
+                  1-* -> ^RuntimeConfSkills
+  +NetMisconf 1-* -> \n—
+              1-* -> ^NetConfSkills
+  +CatalogMisconf  1-* -> \n—
+                   1-* -> ^CatalogSkills
+  +AnyFlavor 0 -> \n—
+              0 -> ^AnySkills
+  
+  <<
+  \nis required.
+
+explanation XepSkills
+  +PreBug 1-* -> XSL FO specification,
+  +FmtBug 1-* -> XSL FO formatting algorithms
+          1-* -> ^xslfo
+          1-* -> ,
+  +SvgBug 1-* -> SVG specification and implementation details
+          1-* -> ^svg
+          1-* -> ,
+  +GenBug 1-* -> output format implementation details for
+          1-* -> ^outputformat
+          1-* -> ,
+  +FontBug 1-* -> implementation details for
+           1-* -> ^font
+           1-* -> fonts,
+  +ImageBug 1-* -> implementation details and limitations for
+            1-* -> ^image
+            1-* -> images,
+
+explanation ApiSkills
+  +product 1 -> Java and XEP/java API
+           2 -> .NET Framework and XEPwin API
+           3 -> Enmasse and
+           3 -> ^ApiSkillsEnmasse
+
+explanation ApiSkillsEnmasse
+   enmasse 0-1 -> its invocation options
+           2 -> Toaster protocol
+           3 ->  SOAP support libraries
+
+explanation ShellSkills
+  +AnyShellBug 1-* -> options and features of
+  +XepCmdLineBug 1-* -> XEP/Java,
+  +XepWinCmdLineBug 1-* -> XEPwin,
+  +XepAssistantBug 1-* -> XEP Assistant (Java),
+  +XepWinAssistantBug 1-* -> XEPwin Assistant,
+  +ActiXepBug 1-* -> ActiXEP,
+  +EnmasseBug 1-* -> Enmasse
+  +enmasse 0 -> ,
+           1 -> Actinia,
+           2 -> Toaster,
+           3 -> Fairy,
+
+explanation ForeignSkills
+  +ProducerBug 1-* -> ^ProducerSkills
+  +ConsumerBug 1-* -> ^ConsumerSkills
+  +EnvBug 1-* -> ^RuntimeConfSkills
+          1-* -> ,
+  +InvokeBug 1-* -> ^ShortProductName
+             1-* -> invocation specifics,
+
+explanation ProducerSkills
+  +inputformat 0-2 -> programs and technologies used with
+               0-2 -> ^ShortProductName
+               1-2 -> for 
+               1 -> XSL FO
+               2 -> SVG
+               0-2 -> generation,
+               3 -> DocBook stylesheets,
+               4 -> WordML2FO stylesheets,
+               5 -> XSLT language and implementations,
+
+explanation ConsumerSkills
+  +outputformat 0 -> programs and technologies used with
+                0 -> ^ShortProductName
+                1-3 -> differences in versions and implementations of
+                1 -> PostScript
+                2 -> PDF
+                3 -> AFP
+                4 -> XEPOUT
+  ,
+
+explanation OutputSkills
+  +outputformat 
+
+explanation EigenConfSkills
+  ^settings
+  configuration details for
+  ^ShortProductName
+
+explanation RuntimeConfSkills
+  +product 1-3 -> ^java
+           1-3 ->,
+  +product 2 -> ^dotnet
+           2 -> ,
+  +product 3 -> ^python
+           3 -> ,
+  << implementation and configuration details,
+
+explanation ProxyConfSkills
+  proxy installation and configuration,
+
+explanation FirewallConfSkills
+  firewall installation and configuration,
+
+explanation NetConfSkills
+  LAN administration,
+  +configuration.proxy 2 -> ^ProxyConfSkills
+  +configuration.firewall 2 -> ^FirewallConfSkills
+
+explanation CatalogSkills
+  XML catalogs,
+
+explanation AnySkills
+  ^ShortProductName
+  and accompanying technologies,
+
+explanation ShortProductName
+  +product 0 -> ^InRenderXSoftware
+           1 -> ^InXep
+           2 -> ^InXepWin
+           3 -> ^InEnmasse
+
+explanation ShellName
+  +xep    1 -> ^InXepCmdLine
+          2 -> ^InXepAssistant
+  +xepwin 1 -> ^InXepWinCmdLine
+          2 -> ^InXepWinAssistant
+          2.5 -> ^InActiXEP
+  +enmasse 1-* -> ^InEnmasse
+

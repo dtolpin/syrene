@@ -1,0 +1,8 @@
+
+<Flavor>
+ <DefiniteFlavor></DefiniteFlavor>
+ <StrongFlavor></StrongFlavor>
+ <MaybeAssistanceRequest>
+  <WeakFlavor>
+   <NetMisconf>
+    <MaybeCause></MaybeCause></NetMisconf></WeakFlavor></MaybeAssistanceRequest></Flavor>

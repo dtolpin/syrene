@@ -1,0 +1,9 @@
+
+<Flavor>
+ <DefiniteFlavor></DefiniteFlavor>
+ <StrongFlavor></StrongFlavor>
+ <MaybeAssistanceRequest>
+  <AssistanceRequest>
+   <JustAssistance>
+    <ShortProductName>
+     <InEnmasse></InEnmasse></ShortProductName></JustAssistance></AssistanceRequest></MaybeAssistanceRequest></Flavor>

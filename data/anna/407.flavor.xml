@@ -1,0 +1,12 @@
+
+<Flavor>
+ <DefiniteFlavor></DefiniteFlavor>
+ <StrongFlavor>
+  <ApiBug>
+   <LikelyCause></LikelyCause>
+   <InXepWinAPI>
+    <InXepWin></InXepWin></InXepWinAPI></ApiBug>
+  <ForeignBug>
+   <LikelyCause></LikelyCause>
+   <InvokeBug>
+    <InXepWin></InXepWin></InvokeBug></ForeignBug></StrongFlavor></Flavor>

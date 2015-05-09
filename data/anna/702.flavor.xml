@@ -1,0 +1,16 @@
+
+<Flavor>
+ <DefiniteFlavor></DefiniteFlavor>
+ <StrongFlavor></StrongFlavor>
+ <MaybeAssistanceRequest>
+  <WeakFlavor>
+   <ApiBug>
+    <MaybeCause></MaybeCause>
+    <InXepAPI>
+     <InXep></InXep></InXepAPI></ApiBug>
+   <EigenMisconf>
+    <MaybeCause></MaybeCause>
+    <ProductMisconf>
+     <InXep></InXep></ProductMisconf></EigenMisconf>
+   <RuntimeMisconf>
+    <MaybeCause></MaybeCause></RuntimeMisconf></WeakFlavor></MaybeAssistanceRequest></Flavor>

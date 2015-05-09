@@ -1,0 +1,7 @@
+
+
+= Hypothesis =
+
+Looks like there is a third-party bug in the way XEPwin is invoked from another program. Looks like there is a bug in configuration of XEP/Java. 
+
+

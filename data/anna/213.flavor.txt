@@ -1,0 +1,7 @@
+
+
+= Hypothesis =
+
+It is possible that there is a bug in XEP/Java API. It is possible that the runtime is misconfigured. 
+
+

@@ -1,0 +1,14 @@
+
+<Flavor>
+ <DefiniteFlavor></DefiniteFlavor>
+ <StrongFlavor></StrongFlavor>
+ <MaybeAssistanceRequest>
+  <WeakFlavor>
+   <XepBug>
+    <MaybeCause></MaybeCause>
+    <InRenderX>
+     <InGen>
+      <outputformat></outputformat></InGen></InRenderX></XepBug>
+   <EigenMisconf>
+    <MaybeCause></MaybeCause>
+    <InBackendConf></InBackendConf></EigenMisconf></WeakFlavor></MaybeAssistanceRequest></Flavor>

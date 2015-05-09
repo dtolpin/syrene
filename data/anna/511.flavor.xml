@@ -1,0 +1,7 @@
+
+<Flavor>
+ <DefiniteFlavor>
+  <ForeignBug>
+   <SureCause></SureCause>
+   <ConsumedOutputFormat>
+    <outputformat></outputformat></ConsumedOutputFormat></ForeignBug></DefiniteFlavor></Flavor>

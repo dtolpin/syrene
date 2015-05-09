@@ -1,0 +1,12 @@
+
+<Flavor>
+ <DefiniteFlavor></DefiniteFlavor>
+ <StrongFlavor></StrongFlavor>
+ <MaybeAssistanceRequest>
+  <AssistanceRequest>
+   <AssistanceInCallingViaAPI>
+    <ShortProductName>
+     <InXep></InXep></ShortProductName></AssistanceInCallingViaAPI>
+   <AssistanceInConfiguringRenderX>
+    <ShortProductName>
+     <InXep></InXep></ShortProductName></AssistanceInConfiguringRenderX></AssistanceRequest></MaybeAssistanceRequest></Flavor>

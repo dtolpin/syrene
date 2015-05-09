@@ -1,0 +1,7 @@
+
+
+= Hypothesis =
+
+It is possible that there is a bug in RenderX code, localized in the PostScript backend. It is possible that there is a bug in configuration of generator options. 
+
+

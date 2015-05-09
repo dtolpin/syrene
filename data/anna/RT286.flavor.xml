@@ -1,0 +1,12 @@
+
+<Flavor>
+ <DefiniteFlavor></DefiniteFlavor>
+ <StrongFlavor></StrongFlavor>
+ <MaybeAssistanceRequest>
+  <AssistanceRequest>
+   <AssistanceInDocumentFormatting>
+    <ShortProductName>
+     <InEnmasse></InEnmasse></ShortProductName></AssistanceInDocumentFormatting>
+   <AssistanceInConfiguringRenderX>
+    <ShortProductName>
+     <InEnmasse></InEnmasse></ShortProductName></AssistanceInConfiguringRenderX></AssistanceRequest></MaybeAssistanceRequest></Flavor>

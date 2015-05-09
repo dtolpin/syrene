@@ -1,0 +1,13 @@
+
+<Flavor>
+ <DefiniteFlavor></DefiniteFlavor>
+ <StrongFlavor></StrongFlavor>
+ <MaybeAssistanceRequest>
+  <AssistanceRequest>
+   <AssistanceInUsingShell>
+    <ShellName>
+     <InXepWinCmdLine>
+      <InXepWin></InXepWin></InXepWinCmdLine></ShellName></AssistanceInUsingShell>
+   <AssistanceInConfiguringRenderX>
+    <ShortProductName>
+     <InXepWin></InXepWin></ShortProductName></AssistanceInConfiguringRenderX></AssistanceRequest></MaybeAssistanceRequest></Flavor>

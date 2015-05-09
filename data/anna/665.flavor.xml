@@ -1,0 +1,10 @@
+
+<Flavor>
+ <DefiniteFlavor></DefiniteFlavor>
+ <StrongFlavor>
+  <XepBug>
+   <LikelyCause></LikelyCause>
+   <InRenderX>
+    <InGen>
+     <outputformat></outputformat></InGen>
+    <InFont></InFont></InRenderX></XepBug></StrongFlavor></Flavor>

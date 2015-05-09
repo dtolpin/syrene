@@ -1,0 +1,7 @@
+
+
+= Hypothesis =
+
+The user asks for assistance in calling XEP/Java via API, configuring XEP/Java. 
+
+

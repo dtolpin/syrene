@@ -1,0 +1,7 @@
+
+
+= Hypothesis =
+
+The user asks for assistance in configuring XEP/Java. 
+
+

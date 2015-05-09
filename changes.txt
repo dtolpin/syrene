@@ -1,0 +1,151 @@
+# $Id: changes.txt,v 1.31 2007/05/04 09:28:28 dvd Exp $
+
+Fri May  4 12:13:51 IDT 2007
+    alternative hypotheses done; seems to work and give good information.
+    Now let's describe what is done -- write papers.
+
+Wed Apr 25 14:13:19 IDT 2007
+    sydiff is implemented - a command-line utility that takes
+    new and old network and a list of cases and displays cases
+    for which explanations differ.
+
+Tue Apr 24 23:28:15 IDT 2007
+    I need a tool that displays a list of cases affected by differences
+    between two versions of the questionnaire. The tool takes old version,
+    new version and a list of cases and returns a list of cases with different
+    explanations.
+
+    It is probably worth making it a command-line utility along with a function
+    in Sysh.
+
+Sun Apr 22 16:50:20 IDT 2007
+    Active dialogue done. Utility is logged to stderr (that is, to httpd-error.log).
+    Next is development tools.
+
+Sun Apr  8 03:31:38 IDT 2007
+    String values are numerically bi-valued (0,1). Ana is drafted.
+    Next is Acti.
+
+Fri Apr  6 16:30:07 IDT 2007
+    Exposed questions work.
+
+Fri Apr  6 02:11:35 IDT 2007
+    Evidence domain (Ana.domains). Next is exposed questions.
+
+Tue Apr  3 23:37:25 IDT 2007
+    Active dialogue: the utility is the sum of all syndromes. It is log [P(all up)/P(all down)].
+    To optimize, need domains for every evidence variable.
+
+    Alternative hypotheses: sum of all (l-o) -- it is log [P(in this state)/P(in inverse state)].
+
+    Foundation for these criteria? A hypothesis is that in complex systems, inverse state
+    is virtually random and with low probability.
+
+Mon Apr  2 00:56:02 IDT 2007
+    Form.lhs is built on Traverse.lhs; the next step is metric computation.
+
+Tue Mar 20 23:47:08 IST 2007
+    The form generator is in the process of refactoring. Try to implement
+    evidence dependencies.
+
+Sun Jan 21 02:30:42 AMT 2007
+    Anna is a good performer; next step: search by syndrome queries
+    to facilitate network debugging.
+
+Tue Jan 16 02:07:01 AMT 2007
+    NetMisconf, index through ErrorT.
+
+Sun Jan 14 01:10:41 AMT 2007
+    ForeignBug drafted (even gives reasonable response).
+
+Fri Jan 12 01:38:02 AMT 2007
+    First hypothesis is breathing.
+
+Tue Jan  9 20:46:12 AMT 2007
+    Network visualization via GraphViz.
+
+Mon Jan  8 15:41:18 AMT 2007
+    syndromes in questionnaire are functional (but are not used yet).
+    Next step is to manually define syndromes and hypotheses.
+    
+Sun Jan  7 22:19:01 AMT 2007
+    entered 300 cases into ANNA-SUPPORT database.
+
+Wed Jan  3 20:07:57 AMT 2007
+    text generation for case description complete.
+    Dependency on HaXml (temporary) removed.
+
+Tue Jan  2 02:04:45 AMT 2007
+    experiment in progress: ~120 cases
+    text generation in Haskell drafted. 
+
+    Next step: symbol table for questionnaire to generate
+    explanation in Haskell CGI.
+
+Fri Dec 29 02:35:11 AMT 2006
+    everything is ready for the experiment.
+
+Wed Dec 27 14:54:45 AMT 2006
+    qre.lhs -- skeleton.
+    Next steps: populator, javascript for collapsing and expanding
+    just the questionnaire, probably without vartable yet.
+
+Wed Dec 27 02:39:45 AMT 2006
+    New modules: CGI, HTML.
+    Additions to anna.synet -- just to see how it goes.
+    mergeform in Sysh -- to compile standalone questionnaires.
+
+Mon Dec 25 00:03:15 AMT 2006
+    HTML part of the questionnaire is done; Regexp is removed
+    from the source, no need for. Basic javascript to compose the tree.
+    Now: css and js go to separate files (form.css, form.js) and an
+         utility to compile html+css+js into a single document,
+         collapsing/expanding (later),
+         server-side cgi to gather information.
+
+Tue Dec 19 23:57:55 AMT 2006
+    HTML part of the questionnaire is mostly done.
+
+    Next step is dynamic tree:
+      Expansions are managed by JavaScript. A function traverses the tree
+      and sets display:none on all disabled branches (and does not go inside).
+      On enabled branches it will insert referenced sections.
+
+Mon Dec 18 00:25:21 AMT 2006
+    Html serializer skeleton.
+
+Sat Dec 16 23:15:12 AMT 2006
+    Next step is data input facility. Two things:
+      1) questionnaire generator - just simple HTML.
+      2) CGI script. Path info points to questionnaire,
+         then interview number: quest.cgi/anna/502
+
+         anna/ contains
+            1) form.html (and other support files in the future). 
+            2) numerically named data files in the form of CGI
+               query strings (anna/502 is for interview #502). 
+
+         CGI script writes updated data file when -submit-= in the query and
+         returns form with data filled in.
+     Will use HaXml for form-filling and a home-brewn cgi implementation.
+
+Wed Dec 13 03:52:18 AMT 2006
+    Testing framework, tests for modules.
+    Shell for basic manipulations (Sysh).
+    Skeleton for the questionnaire generation module.
+
+Fri Dec  8 04:38:11 AMT 2006
+    parser works on anna.synet, next is tests for the parser,
+    then -- drawing the HTML.
+
+Thu Dec  7 04:15:38 AMT 2006
+    src/Parse.lhs -- parser in progress
+
+Tue Dec  5 05:16:48 AMT 2006
+    src/Synet.lhs -- basic structures and selector composition
+
+Sun Dec  3 15:40:39 AMT 2006
+    net/anna.synet drafted. exa/0.synet contains syntax patterns.
+
+Sat Dec  2 20:38:31 AMT 2006
+    Module created

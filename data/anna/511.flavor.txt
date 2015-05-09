@@ -1,0 +1,7 @@
+
+
+= Hypothesis =
+
+Most probably, there is a third-party bug during PDF processing. 
+
+

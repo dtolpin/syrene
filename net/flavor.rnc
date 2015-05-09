@@ -1,0 +1,157 @@
+default namespace = ""
+
+start = element Flavor {
+   DefiniteFlavor, 
+   (StrongFlavor,
+      element MaybeAssistanceRequest {
+         WeakFlavor | AssistanceRequest
+      }?)?
+}
+
+Bug = XepBug?, ApiBug?, ShellBug?, ForeignBug?,
+   EigenMisconf?, RuntimeMisconf?,  NetMisconf?, CatalogMisconf?
+   
+DefiniteFlavor = element DefiniteFlavor { Bug }
+StrongFlavor = element StrongFlavor { Bug }
+WeakFlavor = element WeakFlavor { Bug }
+
+XepBug = element XepBug {
+   (MaybeCause | LikelyCause | SureCause),
+   element InRenderX {
+      InPre?, InFmt?, InSvg?, InGen?, InFont?, InImage?
+   }
+}
+
+ApiBug = element ApiBug {
+   (MaybeCause | LikelyCause | SureCause),
+   (InXepAPI |  InXepWinAPI |  InEnmasseClient)
+}
+
+ShellBug = element ShellBug {
+   (MaybeCause | LikelyCause | SureCause),
+   InAnyShell?, InXepCmdLine?, InXepWinCmdLine?,
+   InXepAssistant?, InXepWinAssistant?, InActiXep?, InEnmasse?
+}
+      
+ForeignBug = element ForeignBug {
+   (MaybeCause | LikelyCause | SureCause),
+   element ProducedInputFormat {
+      (element ViaSvg { empty } | element ViaXslFo { empty })?,
+      inputformat?
+   }?,
+   element ConsumedOutputFormat { outputformat? }?,
+   element InEnv { empty }?,
+   element InvokeBug { (InRenderXSoftware | InXep | InXepWin | InEnmasse)? }?
+}
+
+EigenMisconf = element EigenMisconf {
+   (MaybeCause | LikelyCause | SureCause),
+   ((InFontConf?, InBackendConf?)|ProductMisconf)
+}
+
+ProductMisconf = element ProductMisconf {
+   InRenderXSoftware | InXep | (InEnmasse, InXep)
+}
+
+NetMisconf = element NetMisconf {
+   (MaybeCause | LikelyCause | SureCause),
+   ViaProxy?, ViaFirewall?
+}
+
+CatalogMisconf = element CatalogMisconf {   
+   (MaybeCause | LikelyCause | SureCause)
+}
+
+RuntimeMisconf = element RuntimeMisconf {
+   (MaybeCause | LikelyCause | SureCause)
+}
+
+AssistanceRequest = element AssistanceRequest {
+   AssistanceInDocumentFormatting?,
+   AssistanceInCallingViaAPI?,
+   AssistanceInUsingShell?,
+   AssistanceInInstallingForeignSoftware?,
+   AssistanceInConfiguringRenderX?,
+   AssistanceInConfiguringRuntime?,
+   AssistanceInConfiguringNetwork?,
+   AssistanceInXMLCatalogs?,
+   JustAssistance?
+}
+
+AssistanceInDocumentFormatting = element AssistanceInDocumentFormatting {
+   ShortProductName
+}
+AssistanceInCallingViaAPI = element AssistanceInCallingViaAPI {
+   ShortProductName
+}
+AssistanceInUsingShell = element AssistanceInUsingShell {
+   ShellName
+}
+AssistanceInInstallingForeignSoftware = element AssistanceInInstallingForeignSoftware {
+   empty
+}
+AssistanceInConfiguringRenderX = element AssistanceInConfiguringRenderX {
+   ShortProductName
+}
+AssistanceInConfiguringRuntime = element AssistanceInConfiguringRuntime {
+   ShortProductName
+}
+AssistanceInConfiguringNetwork = element AssistanceInConfiguringNetwork {
+  empty
+}
+AssistanceInXMLCatalogs = element AssistanceInXMLCatalogs {
+   empty 
+}
+JustAssistance = element JustAssistance {
+   ShortProductName
+}
+
+MaybeCause = element MaybeCause { empty }
+LikelyCause = element LikelyCause { empty }
+SureCause = element SureCause { empty }
+inputformat = element inputformat { empty }
+outputformat = element outputformat { empty }
+InXep = element InXep { empty }
+InXepAPI = element InXepAPI { InXep }
+InXepWin = element InXepWin { empty } 
+InXepWinAPI = element InXepWinAPI { InXepWin }
+InEnmasse = element InEnmasse { (InActinia | InToaster | InFairy ) ? }
+InEnmasseClient = element InEnmasseClient { InEnmasse }
+InActinia = element InActinia { empty }
+InToaster = element InToaster { empty }
+InFairy = element InFairy { empty }
+InXepCmdLine = element InXepCmdLine { InXep }
+InXepWinCmdLine = element InXepWinCmdLine { InXepWin }
+InXepAssistant = element InXepAssistant { InXep }
+InXepWinAssistant = element InXepWinAssistant { InXepWin }
+InActiXEP = element InActiXEP { InXepWin }
+InPre = element InPre { empty }
+InFmt = element InFmt { empty }
+InSvg = element InSvg { empty }
+InGen = element InGen { outputformat }
+InFont = element InFont { empty }
+InImage = element InImage { empty }
+InAnyShell = element InAnyShell { empty }
+InActiXep = element InActiXep { empty }
+InRenderXSoftware = element InRenderXSoftware { empty }
+InFontConf = element InFontConf { empty }
+InBackendConf = element InBackendConf { empty }
+ViaProxy = element ViaProxy { empty }
+ViaFirewall = element ViaFirewall { empty }
+
+
+ShortProductName = element ShortProductName {
+   InRenderXSoftware
+ | InXep
+ | InXepWin
+ | InEnmasse
+}
+
+ShellName = element ShellName {
+   InXepCmdLine
+ | InXepAssistant
+ | InXepWinCmdLine
+ | InXepWinAssistant
+ | InActiXEP
+ | InEnmasse
+}

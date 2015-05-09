@@ -1,0 +1,18 @@
+
+<Flavor>
+ <DefiniteFlavor></DefiniteFlavor>
+ <StrongFlavor></StrongFlavor>
+ <MaybeAssistanceRequest>
+  <WeakFlavor>
+   <XepBug>
+    <MaybeCause></MaybeCause>
+    <InRenderX>
+     <InFmt></InFmt></InRenderX></XepBug>
+   <ForeignBug>
+    <MaybeCause></MaybeCause>
+    <ProducedInputFormat>
+     <ViaXslFo></ViaXslFo></ProducedInputFormat></ForeignBug>
+   <EigenMisconf>
+    <MaybeCause></MaybeCause>
+    <ProductMisconf>
+     <InXep></InXep></ProductMisconf></EigenMisconf></WeakFlavor></MaybeAssistanceRequest></Flavor>

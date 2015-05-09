@@ -1,0 +1,74 @@
+default namespace = ""
+
+# ticket flavor defines what sort of bug it is if any
+start = element flavor {
+   bug*
+}
+
+# bag aggregates bugs with common attributes
+bug = element bug {
+   bug-attrs
+} | element bag { # bag of bugs
+   bug-attrs,
+   bug*
+}
+
+bug-attrs =
+   level?, kind?, product?, component?, shell?, enmasse?, network?,
+   input-format?, proxy-format?, output-format?
+
+level =  attribute level {
+   "definite"
+ | "strong"
+ | "weak"
+ | "assist"
+}
+
+kind = attribute kind {
+   "core"
+ | "api"
+ | "shell"
+ | "foreign"
+ | "eigen-misconf"
+ | "runtime-misconf"
+ | "network-misconf"
+ | "catalog-misconf"
+}
+
+product = attribute product {
+   "xep"
+ | "xepwin"
+ | "enmasse"
+}
+
+component = attribute component {
+   "pre"
+ | "fmt"
+ | "svg"
+ | "gen"
+ | "fnt"
+ | "img"
+}
+
+shell = attribute shell {
+   "command-line"
+ | "assistant"
+ | "actixep"
+ | "enmasse"
+}
+
+enmasse = attribute enmasse {
+   "actinia"
+ | "toaster"
+ | "fairy"
+}
+
+network = attribute network {
+   "firewall"
+ | "proxy"
+}
+
+input-format = attribute input-format { text }
+proxy-format = attribute proxy-format { "svg" | "xsl" }
+output-format = attribute output-format { text }
+

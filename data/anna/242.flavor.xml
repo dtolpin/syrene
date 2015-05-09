@@ -1,0 +1,10 @@
+
+<Flavor>
+ <DefiniteFlavor></DefiniteFlavor>
+ <StrongFlavor></StrongFlavor>
+ <MaybeAssistanceRequest>
+  <AssistanceRequest>
+   <AssistanceInUsingShell>
+    <ShellName>
+     <InXepCmdLine>
+      <InXep></InXep></InXepCmdLine></ShellName></AssistanceInUsingShell></AssistanceRequest></MaybeAssistanceRequest></Flavor>

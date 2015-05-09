@@ -1,0 +1,7 @@
+
+
+= Hypothesis =
+
+Looks like there is a third-party bug during XSL FO generation, in the way XEPwin is invoked from another program. 
+
+

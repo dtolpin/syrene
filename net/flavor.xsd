@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="Flavor">
+    <xs:complexType>
+      <xs:choice>
+        <xs:sequence>
+          <xs:element ref="DefiniteFlavor"/>
+          <xs:element ref="StrongFlavor"/>
+        </xs:sequence>
+        <xs:element ref="MaybeAssistanceRequest"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MaybeAssistanceRequest">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="WeakFlavor"/>
+        <xs:element ref="AssistanceRequest"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="Bug">
+    <xs:sequence>
+      <xs:element minOccurs="0" ref="XepBug"/>
+      <xs:element minOccurs="0" ref="ApiBug"/>
+      <xs:element minOccurs="0" ref="ShellBug"/>
+      <xs:element minOccurs="0" ref="ForeignBug"/>
+      <xs:element minOccurs="0" ref="EigenMisconf"/>
+      <xs:element minOccurs="0" ref="RuntimeMisconf"/>
+      <xs:element minOccurs="0" ref="NetMisconf"/>
+      <xs:element minOccurs="0" ref="CatalogMisconf"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DefiniteFlavor" type="Bug"/>
+  <xs:element name="StrongFlavor" type="Bug"/>
+  <xs:element name="WeakFlavor" type="Bug"/>
+  <xs:element name="XepBug">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice>
+          <xs:element ref="MaybeCause"/>
+          <xs:element ref="LikelyCause"/>
+          <xs:element ref="SureCause"/>
+        </xs:choice>
+        <xs:element ref="InRenderX"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InRenderX">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="InPre"/>
+        <xs:element minOccurs="0" ref="InFmt"/>
+        <xs:group minOccurs="0" ref="InSvg"/>
+        <xs:group minOccurs="0" ref="InGen"/>
+        <xs:element minOccurs="0" ref="InFont"/>
+        <xs:element minOccurs="0" ref="InImage"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ApiBug">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice>
+          <xs:element ref="MaybeCause"/>
+          <xs:element ref="LikelyCause"/>
+          <xs:element ref="SureCause"/>
+        </xs:choice>
+        <xs:choice>
+          <xs:element ref="InXepAPI"/>
+          <xs:element ref="InXepWinAPI"/>
+          <xs:element ref="InEnmasseClient"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ShellBug">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice>
+          <xs:element ref="MaybeCause"/>
+          <xs:element ref="LikelyCause"/>
+          <xs:element ref="SureCause"/>
+        </xs:choice>
+        <xs:element minOccurs="0" ref="InAnyShell"/>
+        <xs:element minOccurs="0" ref="InXepCmdLine"/>
+        <xs:element minOccurs="0" ref="InXepWinCmdLine"/>
+        <xs:element minOccurs="0" ref="InXepAssistant"/>
+        <xs:element minOccurs="0" ref="InXepWinAssistant"/>
+        <xs:element minOccurs="0" ref="InActiXep"/>
+        <xs:element minOccurs="0" ref="InEnmasse"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ForeignBug">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice>
+          <xs:element ref="MaybeCause"/>
+          <xs:element ref="LikelyCause"/>
+          <xs:element ref="SureCause"/>
+        </xs:choice>
+        <xs:element minOccurs="0" ref="ProducedInputFormat"/>
+        <xs:element minOccurs="0" ref="ConsumedOutputFormat"/>
+        <xs:element minOccurs="0" ref="InEnv"/>
+        <xs:element minOccurs="0" ref="InvokeBug"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ProducedInputFormat">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice minOccurs="0">
+          <xs:element ref="ViaSvg"/>
+          <xs:element ref="ViaXslFo"/>
+        </xs:choice>
+        <xs:element minOccurs="0" ref="inputformat"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ViaSvg">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="ViaXslFo">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="inputformat">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="ConsumedOutputFormat">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="outputformat"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InEnv">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="InvokeBug">
+    <xs:complexType>
+      <xs:choice minOccurs="0">
+        <xs:element ref="InRenderXSoftware"/>
+        <xs:element ref="InXep"/>
+        <xs:element ref="InXepWin"/>
+        <xs:element ref="InEnmasse"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EigenMisconf">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice>
+          <xs:element ref="MaybeCause"/>
+          <xs:element ref="LikelyCause"/>
+          <xs:element ref="SureCause"/>
+        </xs:choice>
+        <xs:choice>
+          <xs:sequence>
+            <xs:element minOccurs="0" ref="InFontConf"/>
+            <xs:element minOccurs="0" ref="InBackendConf"/>
+          </xs:sequence>
+          <xs:element ref="ProductMisconf"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ProductMisconf">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="InRenderXSoftware"/>
+        <xs:element ref="InXep"/>
+        <xs:sequence>
+          <xs:element ref="InEnmasse"/>
+          <xs:element ref="InXep"/>
+        </xs:sequence>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="NetMisconf">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice>
+          <xs:element ref="MaybeCause"/>
+          <xs:element ref="LikelyCause"/>
+          <xs:element ref="SureCause"/>
+        </xs:choice>
+        <xs:element minOccurs="0" ref="ViaProxy"/>
+        <xs:element minOccurs="0" ref="ViaFirewall"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CatalogMisconf">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="MaybeCause"/>
+        <xs:element ref="LikelyCause"/>
+        <xs:element ref="SureCause"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RuntimeMisconf">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="MaybeCause"/>
+        <xs:element ref="LikelyCause"/>
+        <xs:element ref="SureCause"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AssistanceRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="AssistanceInDocumentFormatting"/>
+        <xs:element minOccurs="0" ref="AssistanceInCallingViaAPI"/>
+        <xs:element minOccurs="0" ref="AssistanceInUsingShell"/>
+        <xs:element minOccurs="0" ref="AssistanceInInstallingForeignSoftware"/>
+        <xs:element minOccurs="0" ref="AssistanceInConfiguringRenderX"/>
+        <xs:element minOccurs="0" ref="AssistanceInConfiguringRuntime"/>
+        <xs:element minOccurs="0" ref="AssistanceInConfiguringNetwork"/>
+        <xs:element minOccurs="0" ref="AssistanceInXMLCatalogs"/>
+        <xs:element minOccurs="0" ref="JustAssistance"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AssistanceInDocumentFormatting" type="ShortProductName"/>
+  <xs:element name="AssistanceInCallingViaAPI" type="ShortProductName"/>
+  <xs:element name="AssistanceInUsingShell" type="ShellName"/>
+  <xs:element name="AssistanceInInstallingForeignSoftware">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="AssistanceInConfiguringRenderX" type="ShortProductName"/>
+  <xs:element name="AssistanceInConfiguringRuntime" type="ShortProductName"/>
+  <xs:element name="AssistanceInConfiguringNetwork">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="AssistanceInXMLCatalogs">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="JustAssistance" type="ShortProductName"/>
+  <xs:element name="MaybeCause">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="LikelyCause">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="SureCause">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="outputformat">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="InXep">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="InXepAPI">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="InXep"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InXepWin">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="InXepWinAPI">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="InXepWin"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InEnmasse">
+    <xs:complexType>
+      <xs:choice minOccurs="0">
+        <xs:element ref="InActinia"/>
+        <xs:element ref="InToaster"/>
+        <xs:element ref="InFairy"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InEnmasseClient">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="InEnmasse"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InActinia">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="InToaster">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="InFairy">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="InXepCmdLine">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="InXep"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InXepWinCmdLine">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="InXepWin"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InXepAssistant">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="InXep"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InXepWinAssistant">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="InXepWin"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InActiXEP">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="InXepWin"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="InPre">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="InFmt">
+    <xs:complexType/>
+  </xs:element>
+  <xs:group name="InSvg">
+    <xs:sequence>
+      <xs:element name="InSvg">
+        <xs:complexType/>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+  <xs:group name="InGen">
+    <xs:sequence>
+      <xs:element name="InSvg">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="outputformat"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+  <xs:element name="InFont">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="InImage">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="InAnyShell">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="InActiXep">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="InRenderXSoftware">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="InFontConf">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="InBackendConf">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="ViaProxy">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="ViaFirewall">
+    <xs:complexType/>
+  </xs:element>
+  <xs:complexType name="ShortProductName">
+    <xs:sequence>
+      <xs:element ref="ShortProductName"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ShortProductName">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="InRenderXSoftware"/>
+        <xs:element ref="InXep"/>
+        <xs:element ref="InXepWin"/>
+        <xs:element ref="InEnmasse"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="ShellName">
+    <xs:sequence>
+      <xs:element ref="ShellName"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ShellName">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="InXepAssistant"/>
+        <xs:element ref="InXepWinAssistant"/>
+        <xs:element ref="InActiXEP"/>
+        <xs:element ref="InEnmasse"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

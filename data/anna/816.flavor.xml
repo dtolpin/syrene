@@ -1,0 +1,8 @@
+
+<Flavor>
+ <DefiniteFlavor></DefiniteFlavor>
+ <StrongFlavor>
+  <ForeignBug>
+   <LikelyCause></LikelyCause>
+   <InvokeBug>
+    <InXepWin></InXepWin></InvokeBug></ForeignBug></StrongFlavor></Flavor>

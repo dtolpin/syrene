@@ -1,0 +1,9 @@
+
+<Flavor>
+ <DefiniteFlavor></DefiniteFlavor>
+ <StrongFlavor></StrongFlavor>
+ <MaybeAssistanceRequest>
+  <AssistanceRequest>
+   <AssistanceInDocumentFormatting>
+    <ShortProductName>
+     <InXep></InXep></ShortProductName></AssistanceInDocumentFormatting></AssistanceRequest></MaybeAssistanceRequest></Flavor>

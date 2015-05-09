@@ -1,0 +1,7 @@
+
+
+= Hypothesis =
+
+Looks like there is a bug in RenderX code, localized in the graphic library. Looks like the network access via firewall, is misconfigured. 
+
+

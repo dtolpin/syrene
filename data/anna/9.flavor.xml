@@ -1,0 +1,14 @@
+
+<Flavor>
+ <DefiniteFlavor></DefiniteFlavor>
+ <StrongFlavor></StrongFlavor>
+ <MaybeAssistanceRequest>
+  <AssistanceRequest>
+   <AssistanceInUsingShell>
+    <ShellName>
+     <InEnmasse>
+      <InToaster></InToaster></InEnmasse></ShellName></AssistanceInUsingShell>
+   <AssistanceInConfiguringRenderX>
+    <ShortProductName>
+     <InEnmasse>
+      <InToaster></InToaster></InEnmasse></ShortProductName></AssistanceInConfiguringRenderX></AssistanceRequest></MaybeAssistanceRequest></Flavor>

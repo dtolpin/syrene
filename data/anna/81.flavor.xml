@@ -1,0 +1,11 @@
+
+<Flavor>
+ <DefiniteFlavor></DefiniteFlavor>
+ <StrongFlavor>
+  <XepBug>
+   <LikelyCause></LikelyCause>
+   <InRenderX>
+    <InImage></InImage></InRenderX></XepBug>
+  <NetMisconf>
+   <LikelyCause></LikelyCause>
+   <ViaFirewall></ViaFirewall></NetMisconf></StrongFlavor></Flavor>

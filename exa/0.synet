@@ -1,0 +1,50 @@
+section * Syntax samples
+  ^section1
+
+section section1 Heading
+  /x/ Questions ...
+
+  ^section2,section3,section4,section5,section6
+  ^section7,section8,section10
+
+section section2 Heading
+   <1> asdasdad
+   <2> asdasd | other /other/ __
+
+   +asdasd
+     4 -> ^section1
+     2 -> ^section2
+
+
+syndrome xxx
+   -10
+   +symptom1 1-4 -> 1 # 
+             5-7 -> 2
+   +symptom2 1 -> 2
+   +symptom4 1-2 -> 3
+
+explanation *
+   Case Description and Hypothesis
+   +sy 0-1 -> xxx ssss
+       2-5 -> ^another
+   More text here
+
+explanation another
+    some text on a particular case 
+    taken into a separate section
+         
+                  
+
+
+
+
+
+
+   
+
+
+  
+
+
+
+

@@ -1,0 +1,37 @@
+/* $Id: common.css,v 1.7 2007/05/04 09:28:29 dvd Exp $ */
+
+div.explanation {white-space: pre-wrap; white-space: -moz-pre-wrap;
+                 padding: 0.5em;
+                 border: thin solid #cc0; background-color: #ffc;
+                 position: fixed;
+                 top: 0pt; right: 0pt; width: 30%; height: 60%;
+                 overflow: auto;
+                 font-size: x-small;}
+block.explatext {display: none;}
+
+div.explalinks {padding: 0.5em;
+                position: fixed;
+                top: 60%; right: 0pt; width: 30%; height: 5%;
+                font-size: small;}
+
+div.explalinks a {border: thin solid #cc0; background-color: #ffc;
+                         margin-left: 1em;}
+
+div.recommendation
+                {padding: 0.5em; border: thin solid #c33; background-color: #fee;
+                 position: fixed;
+                 top: 70%; right: 0pt; width: 30%; height: 15%;
+                 overflow: auto;
+                 font-size: x-small;}
+div.recommendation p {margin: 0em; padding: 0em; margin-bottom: 0.5em;}
+span.score {color: gray; font-style: italic}
+
+div.collapsed-recommendation
+                {padding: 0.5em; border: thin solid #c33; background-color: #fee;
+                 position: fixed;
+                 top: 65%; right: 3%;
+                 width: 10%; height: 5%;
+                 text-align: center; vertical-align: middle;
+                 font-size: larger;}
+
+span.utility {border: thin solid black;}
